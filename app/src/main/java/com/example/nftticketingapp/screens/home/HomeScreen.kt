@@ -1,5 +1,6 @@
 package com.example.nftticketingapp.screens.home
-
+// Ce n'est pas une "View", c'est juste la classe
+// qui va héberger le Scaffold avec le BottomNav.
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
@@ -25,10 +26,9 @@ fun HomeScreen(navController: NavHostController = rememberNavController()) {
 @Composable
 fun BottomBar(navController: NavHostController) {
     val screens = listOf(
-        BottomBarScreen.Home,
-        BottomBarScreen.Profile,
-        BottomBarScreen.Tickets,
-        BottomBarScreen.Market
+        BottomBarScreen.Market,
+        BottomBarScreen.MyTickets,
+        BottomBarScreen.Profile
     )
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = navBackStackEntry?.destination

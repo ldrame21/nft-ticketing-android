@@ -9,23 +9,16 @@ import androidx.navigation.navigation
 import com.example.nftticketingapp.BottomBarScreen
 import com.example.nftticketingapp.screens.ScreenContent
 import com.example.nftticketingapp.screens.home.MarketContent
-import com.example.nftticketingapp.screens.home.TicketsContent
+import com.example.nftticketingapp.screens.home.MyTicketsContent
 
 @Composable
 fun HomeNavGraph(navController: NavHostController) {
     NavHost(
         navController = navController,
         route = Graph.HOME,
-        startDestination = BottomBarScreen.Home.route
+        startDestination = BottomBarScreen.Market.route
     ) {
-        composable(route = BottomBarScreen.Home.route) {
-            ScreenContent(
-                name = BottomBarScreen.Home.route,
-                onClick = {
-                    navController.navigate(Graph.DETAILS)
-                }
-            )
-        }
+
         composable(route = BottomBarScreen.Profile.route) {
             ScreenContent(
                 name = BottomBarScreen.Profile.route,
@@ -43,8 +36,8 @@ fun HomeNavGraph(navController: NavHostController) {
                 onClick = { }
             )
         }
-        composable(route = BottomBarScreen.Tickets.route) {
-            TicketsContent(
+        composable(route = BottomBarScreen.MyTickets.route) {
+            MyTicketsContent(
                 onClick = { }
             )
         }

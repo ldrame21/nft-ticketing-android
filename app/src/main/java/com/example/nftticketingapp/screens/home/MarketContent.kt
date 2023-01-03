@@ -1,11 +1,9 @@
 package com.example.nftticketingapp.screens.home
+// MarketPlace with Scrolling menu of all available events
 
-import androidx.compose.animation.expandVertically
-import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text

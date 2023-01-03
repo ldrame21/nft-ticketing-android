@@ -1,7 +1,6 @@
 package com.example.nftticketingapp
 
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.filled.ShoppingCart
@@ -13,11 +12,6 @@ sealed class BottomBarScreen(
     val title: String,
     val icon: ImageVector
 ) {
-    object Home : BottomBarScreen(
-        route = "HOME",
-        title = "HOME",
-        icon = Icons.Default.Home
-    )
 
     object Profile : BottomBarScreen(
         route = "PROFILE",
@@ -35,9 +29,9 @@ sealed class BottomBarScreen(
         title = "MARKET",
         icon = Icons.Default.ShoppingCart
     )
-    object Tickets : BottomBarScreen(
-        route = "TICKETS",
-        title = "TICKETS",
+    object MyTickets : BottomBarScreen(
+        route = "MYTICKETS",
+        title = "MYTICKETS",
         icon = Icons.Default.Star
     )
 }
