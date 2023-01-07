@@ -4,6 +4,7 @@ package com.example.nftticketingapp.screens.home
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
@@ -21,45 +22,31 @@ import androidx.compose.ui.unit.dp
 fun MarketContent(
     onClick: () -> Unit,
 ) {
-    Column(
-        modifier = Modifier.fillMaxSize(),
-        verticalArrangement = Arrangement.Top,
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        Surface(
-            modifier = Modifier.fillMaxWidth()
-            .height(90.dp),
-            color = MaterialTheme.colors.primary
-        ){
-            Text(
-                modifier = Modifier.clickable { onClick() }
-                    .wrapContentHeight(),
-                text = "MarketPlace",
-                fontSize = MaterialTheme.typography.h3.fontSize,
-                textAlign = TextAlign.Center
-
-            )
+    val list = listOf(
+        Event(
+            id=1,
+            artist = "1",
+            name = "Super1 Concert"
+        ),
+        Event(
+            id=2,
+            artist = "Bebou2",
+            name = "Super Concert2"
+        ),
+        Event(
+            id=3,
+            artist = "Bebou3",
+            name = "Super Concert3"
+        ))
+    LazyColumn(modifier = Modifier.fillMaxHeight()) {
+        items(){ item ->
         }
-
-        Event(
-            artist = "Bebou",
-            name = "Super Concert"
-        )
-        Event(
-            artist = "Passe-Partout",
-            name = "Fort Boyard"
-        )
-        Event(
-            artist = "Amadou et Mariam",
-            name = "Bon Dimanche à Bamako"
-        )
     }
 }
 
 @Composable
 fun Event(
-    artist: String,
-    name: String
+    event: Event
 ) {
     Surface(
         modifier = Modifier.fillMaxWidth()
@@ -79,12 +66,12 @@ fun Event(
             horizontalAlignment = Alignment.Start
         ) {
             Text(
-                text = artist,
+                text = event.artist,
                 fontSize = MaterialTheme.typography.h4.fontSize,
                 fontWeight = FontWeight.Bold
             )
             Text(
-                text = name,
+                text = event.name,
                 fontSize = MaterialTheme.typography.h5.fontSize,
             )
         }
