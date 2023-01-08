@@ -13,16 +13,23 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 
 @Composable
-fun TicketContent() {
+fun TicketContent(
+    name: String,
+    artist: String
+) {
     Column(
         modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
-            text = "Ticket",
-            fontSize = MaterialTheme.typography.h3.fontSize,
+            text = name,
+            fontSize = MaterialTheme.typography.h1.fontSize,
             fontWeight = FontWeight.Bold
+        )
+        Text(
+            text = artist,
+            fontSize = MaterialTheme.typography.h2.fontSize,
         )
 
     }
@@ -31,5 +38,5 @@ fun TicketContent() {
 @Composable
 @Preview(showBackground = true)
 fun TicketContentPreview() {
-    TicketContent()
+    TicketContent("fiesta", "Bob")
 }
