@@ -2,6 +2,7 @@ package com.example.nftticketingapp.screens.home
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CutCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
@@ -25,7 +26,9 @@ import androidx.compose.ui.unit.sp
 
 
 @Composable
-fun LoginScreen(){
+fun LoginScreen(onLogInClick: () -> Unit,
+                onSignUpClick: () -> Unit,
+                onForgotClick: () -> Unit){
 
     var username by remember {
         mutableStateOf("")
@@ -40,6 +43,7 @@ fun LoginScreen(){
         Image(painter = painterResource(id = R.drawable.login_background),
             contentDescription = "Login",
             modifier = Modifier
+                .clickable { onLogInClick() }
                 .fillMaxSize()
                 .blur(6.dp),
             contentScale = ContentScale.Crop
@@ -73,8 +77,9 @@ fun LoginScreen(){
                 username = it
             },
             onForgotPassword = {
-            })
-            LoginFooter(onSignInClick = {}, onSignUpClick = {})
+            },
+                onForgotClick = onForgotClick)
+            LoginFooter(onLogInClick = onLogInClick, onSignUpClick = onSignUpClick)
         }
     }
 }
@@ -95,7 +100,8 @@ fun LoginFields(username: String,
                 password: String,
                 onUsernameChange: (String) -> Unit,
                 onPasswordChange: (String) -> Unit,
-                onForgotPassword: () -> Unit){
+                onForgotPassword: () -> Unit,
+                onForgotClick: () -> Unit){
 
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
 
@@ -111,27 +117,33 @@ fun LoginFields(username: String,
         )
 
         TextButton(onClick = onForgotPassword){
-            Text(text = "Forgot password ?")
+            Text(text = "Forgot password ?", modifier = Modifier.clickable { onForgotClick() })
         }
     }
 }
 
 @Composable
 fun LoginFooter(
-    onSignInClick: () -> Unit,
+    onLogInClick: () -> Unit,
     onSignUpClick: () -> Unit
 ){
 
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
 
-        Button(onClick = onSignInClick, modifier = Modifier.width(100.dp)){
-            Text(text = "Sign in")
+        Button(onClick = onLogInClick,
+            modifier = Modifier
+                .clickable { onLogInClick() }
+                .width(100.dp)){
+            Text(text = "Log in")
         }
         Column(modifier = Modifier.fillMaxSize(), horizontalAlignment = Alignment.CenterHorizontally) {
             Column(modifier = Modifier.weight(5F)) {
                 
             }
-            TextButton(onClick = onSignUpClick, modifier = Modifier.weight(2F)) {
+            TextButton(onClick = onSignUpClick,
+                modifier = Modifier
+                    .clickable { onSignUpClick() }
+                    .weight(2F)) {
                 Text(text = "Create Account")
         }
 
@@ -170,13 +182,10 @@ fun NftTicketingFields(value: String,
 
 
 
-
-
-
-
-
 @Composable
 @Preview
 fun DisplayScreen(){
-    LoginScreen()
+    LoginScreen({},
+        {},
+        {})
 }
