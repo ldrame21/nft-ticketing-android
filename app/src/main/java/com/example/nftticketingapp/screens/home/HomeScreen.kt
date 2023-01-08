@@ -11,7 +11,7 @@ import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.example.nftticketingapp.BottomBarScreen
+import com.example.nftticketingapp.graphs.BottomBarScreen
 import com.example.nftticketingapp.graphs.HomeNavGraph
 
 @Composable

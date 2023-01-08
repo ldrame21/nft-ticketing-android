@@ -13,14 +13,22 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 
 @Composable
-fun EventContent() {
+fun EventContent(
+    name: String,
+    artist: String
+) {
     Column(
         modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
-            text = "Event",
+            text = name,
+            fontSize = MaterialTheme.typography.h2.fontSize,
+            fontWeight = FontWeight.Bold
+        )
+        Text(
+            text = artist,
             fontSize = MaterialTheme.typography.h3.fontSize,
             fontWeight = FontWeight.Bold
         )
@@ -31,5 +39,5 @@ fun EventContent() {
 @Composable
 @Preview(showBackground = true)
 fun EventContentPreview() {
-    EventContent()
+    EventContent("name", "artist")
 }
