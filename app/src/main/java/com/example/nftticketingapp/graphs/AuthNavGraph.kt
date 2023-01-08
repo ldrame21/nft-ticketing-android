@@ -6,6 +6,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navigation
 import com.example.nftticketingapp.screens.LoginContent
 import com.example.nftticketingapp.screens.ScreenContent
+import com.example.nftticketingapp.screens.home.LoginScreen
 
 fun NavGraphBuilder.authNavGraph(navController: NavHostController) {
     navigation(
@@ -13,7 +14,7 @@ fun NavGraphBuilder.authNavGraph(navController: NavHostController) {
         startDestination = AuthScreen.Login.route
     ) {
         composable(route = AuthScreen.Login.route) {
-            LoginContent(
+            /*LoginContent(
                 onClick = {
                     navController.popBackStack()
                     navController.navigate(Graph.HOME)
@@ -24,7 +25,8 @@ fun NavGraphBuilder.authNavGraph(navController: NavHostController) {
                 onForgotClick = {
                     navController.navigate(AuthScreen.Forgot.route)
                 }
-            )
+            )*/
+            LoginScreen()
         }
         composable(route = AuthScreen.SignUp.route) {
             ScreenContent(name = AuthScreen.SignUp.route) {}
