@@ -60,7 +60,8 @@ fun LoginScreen(){
             Modifier
                 .fillMaxSize()
                 .padding(48.dp),
-        horizontalAlignment = Alignment.CenterHorizontally){
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.SpaceAround){
 
             LoginHeader()
             LoginFields(username = username, password = password,
@@ -95,18 +96,20 @@ fun LoginFields(username: String,
                 onPasswordChange: (String) -> Unit,
                 onForgotPassword: () -> Unit){
 
-    NftTicketingFields(value = username, label = "Username", placeholder = "Enter email adress",
-        onValueChange = onUsernameChange)
-    
-    Spacer(modifier = Modifier.height(8.dp))
+    Column(horizontalAlignment = Alignment.CenterHorizontally) {
 
-    NftTicketingFields(value = password, label = "Password", placeholder = "Enter password",
-        onValueChange = onPasswordChange, visualTransformation = PasswordVisualTransformation())
+        NftTicketingFields(value = username, label = "Username", placeholder = "Enter email adress",
+            onValueChange = onUsernameChange)
 
-    TextButton(onClick = onForgotPassword){
-        Text(text = "Forgot password ?")
+        Spacer(modifier = Modifier.height(8.dp))
+
+        NftTicketingFields(value = password, label = "Password", placeholder = "Enter password",
+            onValueChange = onPasswordChange, visualTransformation = PasswordVisualTransformation())
+
+        TextButton(onClick = onForgotPassword){
+            Text(text = "Forgot password ?")
+        }
     }
-
 }
 
 @Composable
@@ -115,12 +118,21 @@ fun LoginFooter(
     onSignUpClick: () -> Unit
 ){
 
-    Button(onClick = onSignInClick){
-        Text(text = "Sign in")
-    }
-    TextButton(onClick = onSignUpClick, modifier = Modifier.fillMaxSize()) {
-        Text(text = "Create Account")
-        
+    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+
+        Button(onClick = onSignInClick, modifier = Modifier.width(100.dp)){
+            Text(text = "Sign in")
+        }
+        Column(modifier = Modifier.fillMaxSize(), horizontalAlignment = Alignment.CenterHorizontally) {
+            Column(modifier = Modifier.weight(5F)) {
+                
+            }
+            TextButton(onClick = onSignUpClick, modifier = Modifier.weight(2F)) {
+                Text(text = "Create Account")
+        }
+
+
+        }
     }
 }
 
