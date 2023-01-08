@@ -13,7 +13,9 @@ fun RootNavigationGraph(navController: NavHostController) {
         route = Graph.ROOT,
         startDestination = Graph.AUTHENTICATION
     ) {
+        //Calling this function creates the Authentification Navigation Graph
         authNavGraph(navController = navController)
+        //composable add a screen in this root nav graph. In this case, we add the home screen
         composable(route = Graph.HOME) {
             HomeScreen()
         }

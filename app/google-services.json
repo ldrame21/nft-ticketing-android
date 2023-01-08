@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "837668247936",
+    "project_id": "nft-ticketing-app",
+    "storage_bucket": "nft-ticketing-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:837668247936:android:bd851a4e681f33ee918965",
+        "android_client_info": {
+          "package_name": "com.example.nftticketingapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "837668247936-fdkioi9tvq8jpj68i22o7uv9co4nvmhi.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDBZHElRZNlCJHZ09B5iw4EdPGHieFwV2I"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "837668247936-fdkioi9tvq8jpj68i22o7uv9co4nvmhi.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
