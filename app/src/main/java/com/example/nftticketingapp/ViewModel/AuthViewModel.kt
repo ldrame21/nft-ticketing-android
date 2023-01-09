@@ -16,6 +16,9 @@ class AuthViewModel: ViewModel() {
     private val _userLoginStatus = MutableStateFlow<UserLoginStatus?>(null)
     val userLoginStatus = _userLoginStatus.asStateFlow()
 
+    private val _userSignupStatus = MutableStateFlow<UserSignupStatus?>(null)
+    val userSignupStatus = _userSignupStatus.asStateFlow()
+
     fun actionLoginFirebase(username: String, password: String){
 
         FirebaseAuthObject.LogIn(username = username,
@@ -27,7 +30,6 @@ class AuthViewModel: ViewModel() {
             onFailure = { //The result failure gets back to the composable
                 _userLoginStatus.value = UserLoginStatus.StatusFailure(it)
             })
-
     }
 
     fun actionSignUpFirebase(username: String, password: String){
@@ -35,8 +37,12 @@ class AuthViewModel: ViewModel() {
         FirebaseAuthObject.SignUp(username = username,
             password = password,
             firebaseAuth = firebaseAuth,
-            onSucess = {},
-            onFailure = {})
+            onSucess = {
+                _userSignupStatus.value = UserSignupStatus.StatusSucesseful
+            },
+            onFailure = { //The result failure gets back to the composable
+                _userSignupStatus.value = UserSignupStatus.StatusFailure(it)
+            })
     }
 }
 
@@ -44,6 +50,13 @@ sealed class UserLoginStatus{
 
     object StatusSucesseful: UserLoginStatus()
     class StatusFailure(val exception: Exception?): UserLoginStatus()
+
+}
+
+sealed class UserSignupStatus{
+
+    object StatusSucesseful: UserSignupStatus()
+    class StatusFailure(val exception: Exception?): UserSignupStatus()
 
 }
 

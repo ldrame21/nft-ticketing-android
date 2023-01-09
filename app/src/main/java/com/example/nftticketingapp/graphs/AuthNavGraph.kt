@@ -7,6 +7,7 @@ import androidx.navigation.navigation
 import com.example.nftticketingapp.screens.LoginContent
 import com.example.nftticketingapp.screens.ScreenContent
 import com.example.nftticketingapp.screens.home.LoginScreen
+import com.example.nftticketingapp.screens.home.SignupScreen
 
 fun NavGraphBuilder.authNavGraph(navController: NavHostController) {
     navigation(
@@ -27,8 +28,15 @@ fun NavGraphBuilder.authNavGraph(navController: NavHostController) {
                 })
         }
         composable(route = AuthScreen.SignUp.route) {
-            ScreenContent(name = AuthScreen.SignUp.route) {}
+            SignupScreen(onSignUpSuccesful = {
+                navController.popBackStack()
+                navController.navigate(AuthScreen.Login.route)
+            },
+                onSignUpClick = {
+                    navController.navigate(AuthScreen.SignUp.route)
+                })
         }
+
         composable(route = AuthScreen.Forgot.route) {
             ScreenContent(name = AuthScreen.Forgot.route) {}
         }

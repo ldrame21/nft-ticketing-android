@@ -38,10 +38,12 @@ object FirebaseAuthObject{
                 //Show a sign up sucess message
                 Log.d(TAG, "User successfully created")
                 val newUser = firebaseAuth.currentUser
+                onSucess()
 
             } else{
 
                 Log.w(TAG, "Failed to create new user", it.exception)
+                onFailure(it.exception)
                 /*Toast.makeText(baseContext, "Authentication failed.",
                     Toast.LENGTH_SHORT).show()*/
 

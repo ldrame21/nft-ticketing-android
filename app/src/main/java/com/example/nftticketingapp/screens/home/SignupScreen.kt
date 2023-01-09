@@ -29,18 +29,17 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.nftticketingapp.ViewModel.AuthViewModel
-import com.example.nftticketingapp.ViewModel.UserLoginStatus
+import com.example.nftticketingapp.ViewModel.UserSignupStatus
 
 
 @Composable
-fun SignupScreen(onLogInSucessful: () -> Unit,
+fun SignupScreen(onSignUpSuccesful: () -> Unit,
                 onSignUpClick: () -> Unit,
-                onForgotClick: () -> Unit,
                 authViewModel: AuthViewModel = viewModel()
 ){
 
     //For Toast messages:
-    val loginScreenContext = LocalContext.current
+    val signupScreenContext = LocalContext.current
 
     //Initialize blank username and password
     var username by remember {
@@ -53,31 +52,32 @@ fun SignupScreen(onLogInSucessful: () -> Unit,
 
 
     // Gets the status of the user connection attempt
-    val loginStatus = authViewModel.userLoginStatus.collectAsState()
+    val signupStatus = authViewModel.userSignupStatus.collectAsState()
 
     var showFailedDialog by remember {
 
         mutableStateOf(false)
     }
 
-    LaunchedEffect(key1 = loginStatus.value){
+    LaunchedEffect(key1 = signupStatus.value){
 
         /* Launched effect is a Coroutine composable function used in a composable function
         * to execute part of the code only when the key given as argument is recomposed.*/
 
-        when(loginStatus.value) {
-            is UserLoginStatus.StatusFailure -> {
+        when(signupStatus.value) {
+            is UserSignupStatus.StatusFailure -> {
 
                 /* When the user fails to login this boolean like variable is set to true
                 * and is then used in an if statement to display an error message*/
 
-                loginScreenContext.showToast("UserStatusFailure: Unable to login")
+                signupScreenContext.showToast("UserStatusFailure: Unable to Sign up")
                 showFailedDialog = true
 
             }
-            UserLoginStatus.StatusSucesseful -> {
-                loginScreenContext.showToast("UserStatusSucess: Login Successful!")
-                onLogInSucessful()
+            UserSignupStatus.StatusSucesseful -> {
+                signupScreenContext.showToast("UserStatusSucess: Sign Up Successful!")
+                //Navigates back to the login screen
+                onSignUpSuccesful()
 
             }
             null -> {
@@ -90,7 +90,7 @@ fun SignupScreen(onLogInSucessful: () -> Unit,
     //The box is gonna take the entire parent size
     Box(modifier = Modifier.fillMaxSize()){
         Image(painter = painterResource(id = R.drawable.login_background),
-            contentDescription = "Login",
+            contentDescription = "Sign Up",
             modifier = Modifier
                 //.clickable { onLogInSucessful() }
                 .fillMaxSize()
@@ -124,26 +124,23 @@ fun SignupScreen(onLogInSucessful: () -> Unit,
                 },
                 onUsernameChange = {
                     username = it
-                },
-                onForgotPassword = {
-                },
-                onForgotClick = onForgotClick)
+                })
             SignupFooter(onLogInClick = {
                 when {
                     username.isBlank() -> {
 
-                        loginScreenContext.showToast("Username is blank!")
+                        signupScreenContext.showToast("Username is blank!")
 
                     }
 
                     password.isBlank() -> {
 
-                        loginScreenContext.showToast("Password is blank!")
+                        signupScreenContext.showToast("Password is blank!")
 
                     }
 
                     else -> {
-                        authViewModel.actionLoginFirebase(username = username, password = password)
+                        authViewModel.actionSignUpFirebase(username = username, password = password)
                     }
                 }
             },
@@ -155,10 +152,10 @@ fun SignupScreen(onLogInSucessful: () -> Unit,
 
 @Composable
 fun SignupHeader(){
-    Text(text= "Welcome Back", fontSize = 36.sp,
+    Text(text= "Create account", fontSize = 36.sp,
         fontWeight = FontWeight.ExtraBold)
 
-    Text(text = "Sign in to continue",
+    Text(text = "Enter your email address and a password",
         fontSize = 18.sp,
         fontWeight = FontWeight.SemiBold
     )
@@ -168,15 +165,13 @@ fun SignupHeader(){
 fun SignupFields(username: String,
                 password: String,
                 onUsernameChange: (String) -> Unit,
-                onPasswordChange: (String) -> Unit,
-                onForgotPassword: () -> Unit,
-                onForgotClick: () -> Unit){
+                onPasswordChange: (String) -> Unit){
 
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
 
         NftTicketingFields(value = username, label = "Email Adress", placeholder = "Enter email adress",
             onValueChange = onUsernameChange,
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email))
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email, imeAction = ImeAction.Next))
 
         Spacer(modifier = Modifier.height(8.dp))
 
@@ -185,9 +180,6 @@ fun SignupFields(username: String,
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password, imeAction = ImeAction.Go)
         )
 
-        TextButton(onClick = onForgotPassword){
-            Text(text = "Forgot password ?", modifier = Modifier.clickable { onForgotClick() })
-        }
     }
 }
 
@@ -203,7 +195,7 @@ fun SignupFooter(
             modifier = Modifier
                 .clickable { onLogInClick() }
                 .width(100.dp)){
-            Text(text = "Log in")
+            Text(text = "Sign Up")
         }
         Column(modifier = Modifier.fillMaxSize(), horizontalAlignment = Alignment.CenterHorizontally) {
             Column(modifier = Modifier.weight(5F)) {
@@ -213,7 +205,7 @@ fun SignupFooter(
                 modifier = Modifier
                     .clickable { onSignUpClick() }
                     .weight(2F)) {
-                Text(text = "Create Account")
+                Text(text = "Back to login")
             }
 
 
@@ -233,6 +225,5 @@ private fun Context.showToast(msg: String){
 @Preview
 fun DisplaySignupScreen(){
     SignupScreen({},
-        {},
         {})
 }

@@ -176,7 +176,7 @@ fun LoginFields(username: String,
 
         NftTicketingFields(value = username, label = "Email Adress", placeholder = "Enter email adress",
             onValueChange = onUsernameChange,
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email))
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email, imeAction = ImeAction.Next))
 
         Spacer(modifier = Modifier.height(8.dp))
 
@@ -261,5 +261,6 @@ private fun Context.showToast(msg: String){
 fun DisplayScreen(){
     LoginScreen({},
         {},
-        {})
+        {},
+        AuthViewModel())
 }
