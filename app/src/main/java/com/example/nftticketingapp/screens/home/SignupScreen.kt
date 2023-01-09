@@ -33,7 +33,7 @@ import com.example.nftticketingapp.ViewModel.UserLoginStatus
 
 
 @Composable
-fun LoginScreen(onLogInSucessful: () -> Unit,
+fun SignupScreen(onLogInSucessful: () -> Unit,
                 onSignUpClick: () -> Unit,
                 onForgotClick: () -> Unit,
                 authViewModel: AuthViewModel = viewModel()
@@ -114,39 +114,39 @@ fun LoginScreen(onLogInSucessful: () -> Unit,
             Modifier
                 .fillMaxSize()
                 .padding(48.dp),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.SpaceAround){
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.SpaceAround){
 
-            LoginHeader()
-            LoginFields(username = username, password = password,
-            onPasswordChange = {
-                password = it
-            },
-            onUsernameChange = {
-                username = it
-            },
-            onForgotPassword = {
-            },
+            SignupHeader()
+            SignupFields(username = username, password = password,
+                onPasswordChange = {
+                    password = it
+                },
+                onUsernameChange = {
+                    username = it
+                },
+                onForgotPassword = {
+                },
                 onForgotClick = onForgotClick)
-            LoginFooter(onLogInClick = {
-            when {
-                username.isBlank() -> {
+            SignupFooter(onLogInClick = {
+                when {
+                    username.isBlank() -> {
 
-                    loginScreenContext.showToast("Username is blank!")
+                        loginScreenContext.showToast("Username is blank!")
 
+                    }
+
+                    password.isBlank() -> {
+
+                        loginScreenContext.showToast("Password is blank!")
+
+                    }
+
+                    else -> {
+                        authViewModel.actionLoginFirebase(username = username, password = password)
+                    }
                 }
-
-                password.isBlank() -> {
-
-                    loginScreenContext.showToast("Password is blank!")
-
-                }
-
-                else -> {
-                    authViewModel.actionLoginFirebase(username = username, password = password)
-                }
-            }
-                                       },
+            },
                 onSignUpClick = onSignUpClick)
         }
     }
@@ -154,18 +154,18 @@ fun LoginScreen(onLogInSucessful: () -> Unit,
 }
 
 @Composable
-fun LoginHeader(){
+fun SignupHeader(){
     Text(text= "Welcome Back", fontSize = 36.sp,
-    fontWeight = FontWeight.ExtraBold)
+        fontWeight = FontWeight.ExtraBold)
 
     Text(text = "Sign in to continue",
-    fontSize = 18.sp,
-    fontWeight = FontWeight.SemiBold
+        fontSize = 18.sp,
+        fontWeight = FontWeight.SemiBold
     )
 }
 
 @Composable
-fun LoginFields(username: String,
+fun SignupFields(username: String,
                 password: String,
                 onUsernameChange: (String) -> Unit,
                 onPasswordChange: (String) -> Unit,
@@ -182,7 +182,7 @@ fun LoginFields(username: String,
 
         NftTicketingFields(value = password, label = "Password", placeholder = "Enter password",
             onValueChange = onPasswordChange, visualTransformation = PasswordVisualTransformation(),
-        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password, imeAction = ImeAction.Go)
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password, imeAction = ImeAction.Go)
         )
 
         TextButton(onClick = onForgotPassword){
@@ -192,7 +192,7 @@ fun LoginFields(username: String,
 }
 
 @Composable
-fun LoginFooter(
+fun SignupFooter(
     onLogInClick: () -> Unit,
     onSignUpClick: () -> Unit
 ){
@@ -207,47 +207,20 @@ fun LoginFooter(
         }
         Column(modifier = Modifier.fillMaxSize(), horizontalAlignment = Alignment.CenterHorizontally) {
             Column(modifier = Modifier.weight(5F)) {
-                
+
             }
             TextButton(onClick = onSignUpClick,
                 modifier = Modifier
                     .clickable { onSignUpClick() }
                     .weight(2F)) {
                 Text(text = "Create Account")
-        }
+            }
 
 
         }
     }
 }
 
-@Composable
-fun NftTicketingFields(value: String,
-                      label: String,
-                      placeholder: String,
-                      visualTransformation: VisualTransformation = VisualTransformation.None,
-                      keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
-                      leadingIcon: @Composable (() -> Unit)? = null,
-                      trailingIcon: (@Composable () -> Unit)? = null,
-                      onValueChange: (String) -> Unit){
-
-    //Username and password fields
-    OutlinedTextField(value = value,
-        onValueChange = onValueChange, 
-    label = {
-        Text(text = label)
-    },
-    placeholder = {
-        Text(text = placeholder)
-    },
-    visualTransformation =  visualTransformation,
-        keyboardOptions = keyboardOptions,
-        leadingIcon = leadingIcon,
-        trailingIcon = trailingIcon
- )
-
-
-}
 
 private fun Context.showToast(msg: String){
     Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
@@ -258,8 +231,8 @@ private fun Context.showToast(msg: String){
 //Cannot be displayed because of ViewModel which is not implemented for Preview of Composable
 @Composable
 @Preview
-fun DisplayScreen(){
-    LoginScreen({},
+fun DisplaySignupScreen(){
+    SignupScreen({},
         {},
         {})
 }

@@ -1,4 +1,7 @@
 package com.example.nftticketingapp.Firebase
+import android.content.ContentValues.TAG
+import android.util.Log
+import android.widget.Toast
 import  com.google.firebase.auth.FirebaseAuth
 
 object FirebaseAuthObject{
@@ -29,13 +32,21 @@ object FirebaseAuthObject{
                onSucess: () -> Unit,
                onFailure: (Exception?) -> Unit){
 
-        firebaseAuth.signInWithEmailAndPassword(username, password).
+        firebaseAuth.createUserWithEmailAndPassword(username, password).
         addOnCompleteListener{
             if(it.isSuccessful){
-                onSucess()
+                //Show a sign up sucess message
+                Log.d(TAG, "User successfully created")
+                val newUser = firebaseAuth.currentUser
+
             } else{
-                onFailure(it.exception)
+
+                Log.w(TAG, "Failed to create new user", it.exception)
+                /*Toast.makeText(baseContext, "Authentication failed.",
+                    Toast.LENGTH_SHORT).show()*/
+
             }
+
         }
     }
 }
