@@ -2,7 +2,7 @@ package com.example.nftticketingapp.graphs
 
 import androidx.navigation.*
 import androidx.navigation.compose.composable
-import com.example.nftticketingapp.screens.home.EventContent
+import com.example.nftticketingapp.screens.home.market.EventContent
 
 const val EVENT_ARG_KEY = "name"
 const val EVENT_ARG_KEY2 = "artist"

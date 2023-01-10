@@ -1,4 +1,4 @@
-package com.example.nftticketingapp.screens.home
+package com.example.nftticketingapp.screens.home.mytickets
 // Display a Ticket
 
 import androidx.compose.foundation.layout.Arrangement
