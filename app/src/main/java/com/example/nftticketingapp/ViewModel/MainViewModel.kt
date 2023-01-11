@@ -4,8 +4,13 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
 
 class MainViewModel: ViewModel() {
+
+    //private val dbRef: DatabaseReference = FirebaseDatabase.getInstance().getReference("Users")
+
 
     // Wallet Backend
     var balance by mutableStateOf(50.0)
