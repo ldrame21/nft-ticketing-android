@@ -1,14 +1,21 @@
 package com.example.nftticketingapp.ViewModel
 
+import android.app.Application
 import androidx.lifecycle.ViewModel
 import com.example.nftticketingapp.Firebase.FirebaseAuthObject
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.FirebaseApp
+import com.google.firebase.FirebaseOptions
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 
 class AuthViewModel: ViewModel() {
 
     private var firebaseAuth = FirebaseAuth.getInstance()
+    private var databaseReference = FirebaseDatabase.getInstance("https://nft-ticketing-app-default-rtdb.europe-west1.firebasedatabase.app")
+
 
 
     //Mutable state which stores user login status. Val with _ is readable and writable
@@ -37,12 +44,24 @@ class AuthViewModel: ViewModel() {
         FirebaseAuthObject.SignUp(username = username,
             password = password,
             firebaseAuth = firebaseAuth,
+            databaseReference = databaseReference,
             onSucess = {
                 _userSignupStatus.value = UserSignupStatus.StatusSucesseful
             },
             onFailure = { //The result failure gets back to the composable
                 _userSignupStatus.value = UserSignupStatus.StatusFailure(it)
             })
+
+        /*FirebaseAuthObject.CreateUserProfile(username = username,
+            firebaseAuth = firebaseAuth,
+            databaseReference = databaseReference,
+            onSucess = {
+                _userSignupStatus.value = UserSignupStatus.StatusSucesseful
+            },
+            onFailure = { //The result failure gets back to the composable
+                _userSignupStatus.value = UserSignupStatus.StatusFailure(it)
+            })*/
+
     }
 }
 

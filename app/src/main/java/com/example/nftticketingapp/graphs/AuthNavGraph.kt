@@ -4,7 +4,6 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
-import com.example.nftticketingapp.screens.LoginContent
 import com.example.nftticketingapp.screens.ScreenContent
 import com.example.nftticketingapp.screens.home.LoginScreen
 import com.example.nftticketingapp.screens.home.SignupScreen

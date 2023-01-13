@@ -1,8 +1,9 @@
 package com.example.nftticketingapp.Firebase
 import android.content.ContentValues.TAG
 import android.util.Log
-import android.widget.Toast
+import com.example.nftticketingapp.DataClasses.User
 import  com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.FirebaseDatabase
 
 object FirebaseAuthObject{
 
@@ -29,6 +30,7 @@ object FirebaseAuthObject{
     fun SignUp(username: String,
                password: String,
                firebaseAuth: FirebaseAuth,
+               databaseReference: FirebaseDatabase,
                onSucess: () -> Unit,
                onFailure: (Exception?) -> Unit){
 
@@ -37,18 +39,39 @@ object FirebaseAuthObject{
             if(it.isSuccessful){
                 //Show a sign up sucess message
                 Log.d(TAG, "User successfully created")
-                val newUser = firebaseAuth.currentUser
+
+                //Extract the user id as it must be the same as the one used to auth the user
+                val uid = firebaseAuth.currentUser?.uid
+                // Create new user
+                val user = User(username = username, uid = uid)
+
+                // Access the Users location in the database or create it if it doesn't exist
+                //databaseReference.getReference("Users")
+
+                if(uid != null){
+                    //addOnCompleteListener gets notified when the task is completed.
+                    databaseReference.getReference("Users").child(uid).setValue(user).addOnCompleteListener{
+
+                        if(it.isSuccessful){
+
+                            Log.d(TAG, "User successfully created")
+
+                        }else{
+                            Log.w(TAG, "Failed to add new user in database", it.exception)
+
+                        }
+                    }
                 onSucess()
 
-            } else{
+                } else{
 
                 Log.w(TAG, "Failed to create new user", it.exception)
                 onFailure(it.exception)
                 /*Toast.makeText(baseContext, "Authentication failed.",
                     Toast.LENGTH_SHORT).show()*/
-
+                }
             }
-
         }
     }
+
 }

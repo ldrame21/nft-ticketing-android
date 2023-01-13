@@ -1,4 +1,4 @@
-package com.example.nftticketingapp.screens.home
+package com.example.nftticketingapp.screens.home.market
 // Display an Event
 
 import androidx.compose.foundation.layout.Arrangement

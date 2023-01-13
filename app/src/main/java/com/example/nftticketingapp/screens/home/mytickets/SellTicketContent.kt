@@ -1,4 +1,4 @@
-package com.example.nftticketingapp.screens
+package com.example.nftticketingapp.screens.home.mytickets
 // Page pour revendre un ticket.
 
 import androidx.compose.foundation.layout.Arrangement

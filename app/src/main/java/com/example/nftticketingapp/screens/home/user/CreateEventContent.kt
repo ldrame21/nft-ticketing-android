@@ -1,4 +1,4 @@
-package com.example.nftticketingapp.screens
+package com.example.nftticketingapp.screens.home.user
  // Page pour minter un nouvel évenement
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
