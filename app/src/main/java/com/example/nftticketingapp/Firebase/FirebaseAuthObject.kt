@@ -43,7 +43,7 @@ object FirebaseAuthObject{
                 //Extract the user id as it must be the same as the one used to auth the user
                 val uid = firebaseAuth.currentUser?.uid
                 // Create new user
-                val user = User(username = username)
+                val user = User(username = username, uid = uid)
 
                 // Access the Users location in the database or create it if it doesn't exist
                 //databaseReference.getReference("Users")
@@ -72,14 +72,6 @@ object FirebaseAuthObject{
                 }
             }
         }
-
-    /*fun CreateUserProfile(username: String,
-                          firebaseAuth: FirebaseAuth,
-                          databaseReference: FirebaseDatabase,
-                          onSucess: () -> Unit,
-                          onFailure: (Exception?) -> Unit){
-
-
-    }*/
     }
+
 }
