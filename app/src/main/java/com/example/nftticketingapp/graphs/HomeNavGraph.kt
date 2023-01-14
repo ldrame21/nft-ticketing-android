@@ -23,7 +23,7 @@ fun HomeNavGraph(navController: NavHostController) {
     ) {
         val viewModel = MainViewModel()
         composable(route = BottomBarScreen.User.route) {
-            UserContent(username = "Robin", viewModel = viewModel)
+            UserContent(username = "Robin", viewModel = viewModel, navController = navController)
         }
         composable(route = BottomBarScreen.Market.route) {
             MarketContent(
@@ -37,6 +37,7 @@ fun HomeNavGraph(navController: NavHostController) {
         }
         ticketNavGraph(navController = navController)
         eventNavGraph(navController = navController)
+        userNavGraph(navController = navController)
     }
 }
 

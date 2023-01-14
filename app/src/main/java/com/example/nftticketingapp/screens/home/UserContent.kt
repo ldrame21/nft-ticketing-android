@@ -31,15 +31,19 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
+import androidx.navigation.NavController
+import androidx.navigation.NavHostController
 import com.example.nftticketingapp.R
 import com.example.nftticketingapp.ui.theme.Purple500
 import com.example.nftticketingapp.ViewModel.MainViewModel
+import com.example.nftticketingapp.graphs.Graph
 
 
 @Composable
 fun UserContent(
     username: String,
-    viewModel: MainViewModel
+    viewModel: MainViewModel,
+    navController: NavHostController
 ) {
     Box(modifier = Modifier.fillMaxSize()){
         Image(painter = painterResource(id = R.drawable.login_background),
@@ -116,7 +120,7 @@ fun UserContent(
                     )
                 }
                 Spacer(modifier = Modifier.height(20.dp))
-                OutlinedButton(onClick = { /*TODO*/ },
+                OutlinedButton(onClick = { navController.navigate(Graph.USER)},
                     modifier = Modifier
                         .height(60.dp)
                         .width(290.dp)

@@ -26,4 +26,5 @@ object Graph {
     const val HOME = "home_graph"
     const val TICKET = "ticket_graph"
     const val EVENT = "event_graph"
+    const val USER = "user_graph"
 }
