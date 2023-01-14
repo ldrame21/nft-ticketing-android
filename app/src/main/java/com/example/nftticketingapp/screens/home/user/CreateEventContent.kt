@@ -8,6 +8,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CutCornerShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
@@ -29,13 +30,16 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.nftticketingapp.R
+import com.example.nftticketingapp.ViewModel.MainViewModel
 import com.example.nftticketingapp.graphs.Graph
 
 import com.example.nftticketingapp.ui.theme.Purple500
 
 @SuppressLint("UnrememberedMutableState")
 @Composable
-fun CreateEventContent(navController: NavHostController) {
+fun CreateEventContent(
+    navController: NavHostController
+) {
     val ScreenContext = LocalContext.current
 
     var new_event_name by remember { mutableStateOf("") }
@@ -65,177 +69,181 @@ fun CreateEventContent(navController: NavHostController) {
                 )
             )
             .background(MaterialTheme.colors.background))
-        Column(modifier = Modifier.height(1200.dp)) {
-            Column(
-                modifier = Modifier.fillMaxWidth(),
-                Arrangement.Top, Alignment.CenterHorizontally
-            ) {
-                Text(
-                    modifier = Modifier.padding(top =10.dp, bottom = 15.dp),
-                    text = "Create new event",
-                    fontSize = MaterialTheme.typography.h4.fontSize,
-                    fontWeight = FontWeight.Bold
-                )
-                Image(
-                    painter = painterResource(R.drawable.event),
-                    contentDescription = "avatar",
-                    contentScale = ContentScale.Crop,            // crop the image if it's not a square
-                    modifier = Modifier
-                        .padding(bottom = 20.dp)
-                        .size(170.dp)
-                        .clip(RectangleShape)                       // clip to the circle shape
-                        .border(2.dp, Color.Gray, RectangleShape)   // add a border (optional)
-                )
-
-                val nametextState = remember { mutableStateOf(TextFieldValue())}
-                val artisttextState = remember { mutableStateOf(TextFieldValue())}
-                val addresstextState = remember { mutableStateOf(TextFieldValue()) }
-                val datetextState = remember { mutableStateOf(TextFieldValue()) }
-                val descriptiontextState = remember { mutableStateOf(TextFieldValue()) }
-                val pricetextState = remember { mutableStateOf(TextFieldValue()) }
-                val n_tokenstextState = remember { mutableStateOf(TextFieldValue()) }
-
-
-                TextField(
-                    value = nametextState.value,
-                    singleLine = true,
-                    onValueChange = {
-                        nametextState.value = it
-                        new_event_name = it.text
-                    },
-                    placeholder = { Text(text = "New event name") },
-                    colors = TextFieldDefaults.textFieldColors(
-                        backgroundColor = Color.Transparent
+        LazyColumn(Modifier.fillMaxSize()) {
+            item {
+                Column(
+                    modifier = Modifier.fillMaxWidth(),
+                    Arrangement.Top, Alignment.CenterHorizontally
+                ) {
+                    Text(
+                        modifier = Modifier.padding(top = 30.dp, bottom = 30.dp),
+                        text = "Create new event",
+                        fontSize = MaterialTheme.typography.h4.fontSize,
+                        fontWeight = FontWeight.Bold
                     )
-                )
+                    Image(
+                        painter = painterResource(R.drawable.event),
+                        contentDescription = "avatar",
+                        contentScale = ContentScale.Crop,            // crop the image if it's not a square
+                        modifier = Modifier
+                            .padding(bottom = 20.dp)
+                            .size(150.dp)
+                            .clip(RectangleShape)                       // clip to the circle shape
+                            .border(2.dp, Color.Gray, RectangleShape)   // add a border (optional)
+                    )
 
-                Row() {
+                    val nametextState = remember { mutableStateOf(TextFieldValue()) }
+                    val artisttextState = remember { mutableStateOf(TextFieldValue()) }
+                    val addresstextState = remember { mutableStateOf(TextFieldValue()) }
+                    val datetextState = remember { mutableStateOf(TextFieldValue()) }
+                    val descriptiontextState = remember { mutableStateOf(TextFieldValue()) }
+                    val pricetextState = remember { mutableStateOf(TextFieldValue()) }
+                    val n_tokenstextState = remember { mutableStateOf(TextFieldValue()) }
+
+
                     TextField(
-                        modifier = Modifier.width(170.dp),
-                        value = n_tokenstextState.value,
+                        value = nametextState.value,
                         singleLine = true,
                         onValueChange = {
-                            n_tokenstextState.value = it
-                            n_tokens = it.text.toInt()
+                            nametextState.value = it
+                            new_event_name = it.text
                         },
-                        placeholder = { Text(text = "No of tickets") },
+                        placeholder = { Text(text = "New event name") },
                         colors = TextFieldDefaults.textFieldColors(
                             backgroundColor = Color.Transparent
                         )
                     )
-                    Spacer(modifier = Modifier.width(20.dp))
+
+                    Row() {
+                        TextField(
+                            modifier = Modifier.width(170.dp),
+                            value = n_tokenstextState.value,
+                            singleLine = true,
+                            onValueChange = {
+                                n_tokenstextState.value = it
+                                n_tokens = it.text.toInt()
+                            },
+                            placeholder = { Text(text = "No of tickets") },
+                            colors = TextFieldDefaults.textFieldColors(
+                                backgroundColor = Color.Transparent
+                            )
+                        )
+                        Spacer(modifier = Modifier.width(20.dp))
+                        TextField(
+                            modifier = Modifier.width(90.dp),
+                            value = pricetextState.value,
+                            singleLine = true,
+                            onValueChange = {
+                                pricetextState.value = it
+                                price = it.text.toDouble()
+                            },
+                            placeholder = { Text(text = "0.0 chf") },
+                            colors = TextFieldDefaults.textFieldColors(
+                                backgroundColor = Color.Transparent
+                            )
+                        )
+                    }
                     TextField(
-                        modifier = Modifier.width(90.dp),
-                        value = pricetextState.value,
                         singleLine = true,
+                        value = artisttextState.value,
                         onValueChange = {
-                            pricetextState.value = it
-                            price = it.text.toDouble()
+                            artisttextState.value = it
+                            artist = it.text
                         },
-                        placeholder = { Text(text = "0.0 chf") },
+                        placeholder = { Text(text = "Artist") },
+                        colors = TextFieldDefaults.textFieldColors(
+                            backgroundColor = Color.Transparent
+                        )
+                    )
+                    TextField(
+                        singleLine = true,
+                        value = addresstextState.value,
+                        onValueChange = {
+                            addresstextState.value = it
+                            address = it.text
+                        },
+                        placeholder = { Text(text = "Address") },
+                        colors = TextFieldDefaults.textFieldColors(
+                            backgroundColor = Color.Transparent
+                        )
+                    )
+                    TextField(
+                        singleLine = true,
+                        value = datetextState.value,
+                        onValueChange = {
+                            datetextState.value = it
+                            date = it.text
+                        },
+                        placeholder = { Text(text = "Date") },
+                        colors = TextFieldDefaults.textFieldColors(
+                            backgroundColor = Color.Transparent
+                        )
+                    )
+                    TextField(
+                        modifier = Modifier.wrapContentHeight(),
+                        value = descriptiontextState.value,
+                        onValueChange = {
+                            descriptiontextState.value = it
+                            description = it.text
+                        },
+                        placeholder = { Text(text = "Description") },
                         colors = TextFieldDefaults.textFieldColors(
                             backgroundColor = Color.Transparent
                         )
                     )
                 }
-                TextField(
-                    singleLine = true,
-                    value = artisttextState.value,
-                    onValueChange = {
-                        artisttextState.value = it
-                        artist = it.text
-                    },
-                    placeholder = { Text(text = "Artist") },
-                    colors = TextFieldDefaults.textFieldColors(
-                        backgroundColor = Color.Transparent
-                    )
-                )
-                TextField(
-                    singleLine = true,
-                    value = addresstextState.value,
-                    onValueChange = {
-                        addresstextState.value = it
-                        address = it.text
-                    },
-                    placeholder = { Text(text = "Address") },
-                    colors = TextFieldDefaults.textFieldColors(
-                        backgroundColor = Color.Transparent
-                    )
-                )
-                TextField(
-                    singleLine = true,
-                    value = datetextState.value,
-                    onValueChange = {
-                        datetextState.value = it
-                        date = it.text
-                    },
-                    placeholder = { Text(text = "Date") },
-                    colors = TextFieldDefaults.textFieldColors(
-                        backgroundColor = Color.Transparent
-                    )
-                )
-                TextField(
-                    maxLines = 6,
-                    modifier = Modifier.wrapContentHeight(),
-                    value = descriptiontextState.value,
-                    onValueChange = {
-                        descriptiontextState.value = it
-                        description = it.text
-                    },
-                    placeholder = { Text(text = "Description") },
-                    colors = TextFieldDefaults.textFieldColors(
-                        backgroundColor = Color.Transparent
-                    )
-                )
-            }
-            Column(
-                modifier = Modifier.fillMaxSize(),
-                Arrangement.Bottom, Alignment.CenterHorizontally
-            ){
-                Spacer(Modifier.fillMaxWidth())
-                OutlinedButton(
-                    onClick = {
-                        val result = if (new_event_name.isBlank()) {
-                            ScreenContext.showToast("Missing event name")
-                        } else if (price == 0.0) {
-                            ScreenContext.showToast("Missing ticket price")
-                        } else if (n_tokens == 0) {
-                            ScreenContext.showToast("Missing number of tickets")
-                        } else if (artist.isBlank()) {
-                            ScreenContext.showToast("Missing artist name")
-                        } else if (address.isBlank()) {
-                            ScreenContext.showToast("Missing address")
-                        } else if (date.isBlank()) {
-                            ScreenContext.showToast("Missing date")
-                        } else if (description.isBlank()) {
-                            ScreenContext.showToast("Missing description")
-                        } else {
-                            ScreenContext.showToast("$new_event_name uploaded")
-                            MintEvent(
-                                new_event_name,
-                                price,
-                                n_tokens,
-                                artist,
-                                address,
-                                date,
-                                description
-                            )
-                            navController.navigate(Graph.HOME)
-                        }
-                    },
-                    modifier = Modifier
-                        .padding(top = 40.dp, bottom = 80.dp)
-                        .height(60.dp)
-                        .width(290.dp)
-                        .clip(RoundedCornerShape(50)),
-                    colors = ButtonDefaults.textButtonColors(backgroundColor = Purple500)
+
+                Column(
+                    modifier = Modifier.fillMaxSize(),
+                    Arrangement.Bottom, Alignment.CenterHorizontally
                 ) {
-                    Text(
-                        text = "Mint Event",
-                        fontSize = MaterialTheme.typography.h5.fontSize,
-                        fontWeight = FontWeight.Normal,
-                        color = Color.White
-                    )
+                    Spacer(modifier = Modifier.height(40.dp))
+
+                    OutlinedButton(
+                        onClick = {
+                            val result = if (new_event_name.isBlank()) {
+                                ScreenContext.showToast("Missing event name")
+                            } else if (price == 0.0) {
+                                ScreenContext.showToast("Missing ticket price")
+                            } else if (n_tokens == 0) {
+                                ScreenContext.showToast("Missing number of tickets")
+                            } else if (artist.isBlank()) {
+                                ScreenContext.showToast("Missing artist name")
+                            } else if (address.isBlank()) {
+                                ScreenContext.showToast("Missing address")
+                            } else if (date.isBlank()) {
+                                ScreenContext.showToast("Missing date")
+                            } else if (description.isBlank()) {
+                                ScreenContext.showToast("Missing description")
+                            } else {
+                                ScreenContext.showToast("$new_event_name uploaded")
+                                MintEvent(
+                                    new_event_name,
+                                    price,
+                                    n_tokens,
+                                    artist,
+                                    address,
+                                    date,
+                                    description
+                                )
+                                navController.navigate(Graph.HOME)
+                            }
+                        },
+                        modifier = Modifier
+                            .padding(top = 40.dp, bottom = 80.dp)
+                            .height(60.dp)
+                            .width(290.dp)
+                            .clip(RoundedCornerShape(50)),
+                        colors = ButtonDefaults.textButtonColors(backgroundColor = Purple500)
+                    ) {
+                        Text(
+                            text = "Mint Event",
+                            fontSize = MaterialTheme.typography.h5.fontSize,
+                            fontWeight = FontWeight.Normal,
+                            color = Color.White
+                        )
+                    }
+                    Spacer(modifier = Modifier.height(40.dp))
                 }
             }
         }
@@ -252,7 +260,7 @@ fun MintEvent(
     date: String,
     description: String
 ) {
-//TODO Déplacer ça dans le viewModel approprié et remplir la fonction
+
 }
 
 @Composable

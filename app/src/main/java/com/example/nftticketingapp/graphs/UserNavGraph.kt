@@ -2,9 +2,12 @@ package com.example.nftticketingapp.graphs
 
 import androidx.navigation.*
 import androidx.navigation.compose.composable
+import com.example.nftticketingapp.ViewModel.MainViewModel
 import com.example.nftticketingapp.screens.home.user.CreateEventContent
 
-fun NavGraphBuilder.userNavGraph(navController: NavHostController) {
+fun NavGraphBuilder.userNavGraph(
+    navController: NavHostController
+) {
     navigation(
         route = Graph.USER,
         startDestination = UserScreen.CreateEvent.route
