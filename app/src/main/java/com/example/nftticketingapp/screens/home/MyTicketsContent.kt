@@ -19,52 +19,91 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import com.example.nftticketingapp.DataClasses.Event
+import com.example.nftticketingapp.DataClasses.Event2
 import com.example.nftticketingapp.graphs.TicketScreen
 
 private val event_list  = mutableListOf(
-    Event(
-        id=1,
-        artist = "1",
-        name = "Super1 Concert"
+    Event2(
+        name =  "Kendrick Lamar Concert",
+        numberOfTickets = 1,
+        price = 10.0,
+        artist = "Kendrick Lamar",
+        address = "Rue Le-Corbusier",
+        date = "21/10/2023",
+        description = "Best concert of your life"
     ),
-    Event(
-        id=2,
-        artist = "Bebou2",
-        name = "Super Concert2"
+    Event2(
+        name =  "Kendrick Lamar Concert",
+        numberOfTickets = 1,
+        price = 10.0,
+        artist = "Kendrick Lamar",
+        address = "Rue Le-Corbusier",
+        date = "21/10/2023",
+        description = "Best concert of your life"
     ),
-    Event(
-        id=3,
-        artist = "Bebou3",
-        name = "Super Concert3"
-    ),Event(
-        id=1,
-        artist = "1",
-        name = "Super1 Concert"
+    Event2(
+        name =  "Kendrick Lamar Concert",
+        numberOfTickets = 1,
+        price = 10.0,
+        artist = "Kendrick Lamar",
+        address = "Rue Le-Corbusier",
+        date = "21/10/2023",
+        description = "Best concert of your life"
+    ), Event2(
+        name =  "Kendrick Lamar Concert",
+        numberOfTickets = 1,
+        price = 10.0,
+        artist = "Kendrick Lamar",
+        address = "Rue Le-Corbusier",
+        date = "21/10/2023",
+        description = "Best concert of your life"
     ),
-    Event(
-        id=2,
-        artist = "Bebou2",
-        name = "Super Concert2"
+    Event2(
+        name =  "Kendrick Lamar Concert",
+        numberOfTickets = 1,
+        price = 10.0,
+        artist = "Kendrick Lamar",
+        address = "Rue Le-Corbusier",
+        date = "21/10/2023",
+        description = "Best concert of your life"
     ),
-    Event(
-        id=3,
-        artist = "Bebou3",
-        name = "Super Concert3"
-    ),Event(
-        id=1,
-        artist = "1",
-        name = "Super1 Concert"
+    Event2(
+        name =  "Kendrick Lamar Concert",
+        numberOfTickets = 1,
+        price = 10.0,
+        artist = "Kendrick Lamar",
+        address = "Rue Le-Corbusier",
+        date = "21/10/2023",
+        description = "Best concert of your life"
+    ), Event2(
+        name =  "Kendrick Lamar Concert",
+        numberOfTickets = 1,
+        price = 10.0,
+        artist = "Kendrick Lamar",
+        address = "Rue Le-Corbusier",
+        date = "21/10/2023",
+        description = "Best concert of your life"
     ),
-    Event(
-        id=2,
-        artist = "Bebou2",
-        name = "Super Concert2"
+    Event2(
+        name =  "Kendrick Lamar Concert",
+        numberOfTickets = 1,
+        price = 10.0,
+        artist = "Kendrick Lamar",
+        address = "Rue Le-Corbusier",
+        date = "21/10/2023",
+        description = "Best concert of your life"
     ),
-    Event(
-        id=3,
-        artist = "Bebou3",
-        name = "Super Concert3"
-    ))
+    Event2(
+        name =  "Kendrick Lamar Concert",
+        numberOfTickets = 1,
+        price = 10.0,
+        artist = "Kendrick Lamar",
+        address = "Rue Le-Corbusier",
+        date = "21/10/2023",
+        description = "Best concert of your life"
+    )
+)
 
 @Composable
 fun MyTicketsContent(
@@ -102,7 +141,7 @@ fun MyTicketsContent(
 
 @Composable
 fun Ticket(
-    event: Event,
+    event2: Event2,
     navController: NavHostController
 ) {
     Surface(
@@ -110,8 +149,8 @@ fun Ticket(
             .clickable {
                 navController.navigate(
                     TicketScreen.Ticket.passNameAndArtist(
-                        name = event.name,
-                        artist = event.artist
+                        name = event2.name,
+                        artist = event2.artist
                     )
                 )
             }
@@ -129,12 +168,12 @@ fun Ticket(
             horizontalAlignment = Alignment.Start
         ) {
             Text(
-                text = event.artist,
+                text = event2.artist,
                 fontSize = MaterialTheme.typography.h4.fontSize,
                 fontWeight = FontWeight.Bold
             )
             Text(
-                text = event.name,
+                text = event2.name,
                 fontSize = MaterialTheme.typography.h5.fontSize,
             )
         }

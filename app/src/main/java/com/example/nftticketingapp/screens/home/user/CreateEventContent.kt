@@ -28,7 +28,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import com.example.nftticketingapp.DataClasses.Event
 import com.example.nftticketingapp.R
+import com.example.nftticketingapp.ViewModel.EventViewModel
 import com.example.nftticketingapp.graphs.Graph
 
 import com.example.nftticketingapp.ui.theme.Purple500
@@ -45,6 +47,7 @@ fun CreateEventContent(navController: NavHostController) {
     var description by remember { mutableStateOf("") }
     var price by remember { mutableStateOf(0.0) }
     var n_tokens by remember { mutableStateOf(0) }
+
     Box(modifier = Modifier.fillMaxSize()){
         Image(painter = painterResource(id = R.drawable.login_background),
             contentDescription = "Login",
@@ -211,14 +214,14 @@ fun CreateEventContent(navController: NavHostController) {
                             ScreenContext.showToast("Missing description")
                         } else {
                             ScreenContext.showToast("$new_event_name uploaded")
-                            MintEvent(
-                                new_event_name,
-                                price,
-                                n_tokens,
-                                artist,
-                                address,
-                                date,
-                                description
+                            EventViewModel().addEvent(
+                                Event(name = new_event_name,
+                                    numberOfTickets = n_tokens,
+                                    price = price,
+                                artist = artist,
+                                address = address,
+                                date = date,
+                                description = description)
                             )
                             navController.navigate(Graph.HOME)
                         }

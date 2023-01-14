@@ -23,6 +23,9 @@ class MainViewModel: ViewModel() {
     private var uid = firebaseAuth.currentUser?.uid.toString()
     private var usersReference = databaseReference.getReference("Users")
 
+    val rootRef = FirebaseDatabase.getInstance().reference
+    val ticketsRef = rootRef.child("Tickets")
+
 
     private val _userData = MutableLiveData<User>()
     val userData: LiveData<User>
@@ -97,35 +100,11 @@ class MainViewModel: ViewModel() {
         }
     }
 
-    /*var user by mutableStateOf(User("", ""))
-        private set
-    fun getUs(){
-        if(uid.isNotEmpty()){
-
-            usersReference.child(uid).addValueEventListener(object: ValueEventListener{
-                override fun onDataChange(snapshot: DataSnapshot) {
-
-                    //Get the user data whenever it is changed
-                    val currentUser = snapshot.getValue(User::class.java)
-                    if (currentUser != null) {
-                        user = currentUser
-                    }
-
-
-                }
-
-                override fun onCancelled(error: DatabaseError) {
-                    TODO("Not yet implemented")
-                }
-            })
-        }
-    }*/
-
-
 
     // Wallet Backend
-    var balance by mutableStateOf(50.0)
-        private set
+    /*var balance by mutableStateOf(50.0)
+        private set*/
+
     fun addBalance(amount: Double){
         //_userData.value!!.balance += amount
         //balance += amount
