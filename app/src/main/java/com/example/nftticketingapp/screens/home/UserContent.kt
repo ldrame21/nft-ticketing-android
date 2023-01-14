@@ -12,6 +12,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -22,6 +23,7 @@ import androidx.compose.ui.draw.blur
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
@@ -29,14 +31,21 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.Observer
+import com.example.nftticketingapp.DataClasses.User
 import com.example.nftticketingapp.R
 import com.example.nftticketingapp.ui.theme.Purple500
 import com.example.nftticketingapp.ViewModel.MainViewModel
 import com.example.nftticketingapp.graphs.Graph
+
+
 
 
 @Composable
@@ -45,6 +54,23 @@ fun UserContent(
     viewModel: MainViewModel,
     navController: NavHostController
 ) {
+
+    var username: String? = null
+
+    //val user = remember { viewModel.getUserData().value }
+    //var user by viewModel.getUserData().observeAsState()
+    /*viewModel.userData.observe(LocalLifecycleOwner.current,Observer {
+
+        username = it.username
+        uid = it.uid
+        blnc = it.balance
+
+    })*/
+
+    var user = viewModel.userData.observeAsState()
+
+
+
     Box(modifier = Modifier.fillMaxSize()){
         Image(painter = painterResource(id = R.drawable.login_background),
             contentDescription = "Login",
@@ -80,11 +106,24 @@ fun UserContent(
                         .clip(CircleShape)                       // clip to the circle shape
                         .border(2.dp, Color.Gray, CircleShape)   // add a border (optional)
                 )
-                Text(
-                    text = username,
+                if (user.value?.username != null) {
+
+                    Text(
+                        text = user.value?.username!!,
+                        fontSize = 20.sp,
+                        fontWeight = FontWeight.Bold
+                    )
+
+                } else{
+                    Text(
+                        text = "Username is null",
+                        fontSize = MaterialTheme.typography.h3.fontSize,
+                        fontWeight = FontWeight.Bold)
+                }
+                /*Text(
+                    text = "Username is null",
                     fontSize = MaterialTheme.typography.h3.fontSize,
-                    fontWeight = FontWeight.Bold
-                )
+                    fontWeight = FontWeight.Bold)*/
             }
             Spacer(modifier = Modifier.height(60.dp))
             Column(
@@ -94,7 +133,7 @@ fun UserContent(
             {
                 Text(modifier = Modifier.padding(horizontal = 40.dp),
                     text = "Credit : "
-                            + "%.2f".format(viewModel.balance)
+                            + "%.2f".format(user.value!!.balance)
                             + " CHF",
                     fontSize = MaterialTheme.typography.h4.fontSize,
                     fontWeight = FontWeight.Normal,
