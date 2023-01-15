@@ -24,10 +24,6 @@ class MainViewModel: ViewModel() {
     private var uid = firebaseAuth.currentUser?.uid.toString()
     private var usersReference = databaseReference.getReference("Users")
 
-    val rootRef = FirebaseDatabase
-        .getInstance("https://nft-ticketing-app-default-rtdb.europe-west1.firebasedatabase.app")
-        .reference
-    val ticketsRef = rootRef.child("Tickets")
 
 
     private val _userData = MutableLiveData<User>()
