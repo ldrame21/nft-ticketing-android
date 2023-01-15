@@ -193,7 +193,7 @@ fun CreateEventContent(
                             backgroundColor = Color.Transparent
                         )
                     )
-                )
+
                 TextField(
                     singleLine = true,
                     value = datetextState.value,
@@ -313,7 +313,7 @@ fun CreateEventContent(
             }
         }
     }
-}
+}}
 
 
 fun MintEvent(

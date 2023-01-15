@@ -2,7 +2,6 @@ package com.example.nftticketingapp.graphs
 
 import androidx.navigation.*
 import androidx.navigation.compose.composable
-import com.example.nftticketingapp.screens.home.mytickets.SellTicketContent
 import com.example.nftticketingapp.screens.home.mytickets.TicketContent
 
 const val TICKET_ARG_KEY = "name"
@@ -13,9 +12,7 @@ fun NavGraphBuilder.ticketNavGraph(navController: NavHostController) {
         route = Graph.TICKET,
         startDestination = TicketScreen.Ticket.route
     ) {
-        composable(route = TicketScreen.SellTicket.route) {
-            SellTicketContent()
-        }
+
         composable(
             route = TicketScreen.Ticket.route,
             arguments = listOf(
