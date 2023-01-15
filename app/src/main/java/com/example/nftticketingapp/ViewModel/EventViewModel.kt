@@ -94,8 +94,8 @@ class EventViewModel(): ViewModel() {
 
             }
 
-            /*//Add ticket to user wallet
-            val userRef =  databaseReference.getReference("Users")
+            //Add ticket to user wallet
+            /*val userRef =  databaseReference.getReference("Users")
             val tokenListRef =userRef.child(userUID)
 
             val updates = HashMap<String, Any>()
