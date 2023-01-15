@@ -5,14 +5,24 @@ import android.util.Log
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.ViewModel
 import com.example.nftticketingapp.DataClasses.Event
+import com.example.nftticketingapp.DataClasses.Ticket
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 
 class EventViewModel(): ViewModel() {
 
 
-    private var firebaseAuth = FirebaseAuth.getInstance()
-    private var databaseReference = FirebaseDatabase.getInstance("https://nft-ticketing-app-default-rtdb.europe-west1.firebasedatabase.app")
+    private lateinit var firebaseAuth: FirebaseAuth
+    private lateinit var databaseReference: FirebaseDatabase
+    private lateinit var userUID: String
+
+    init {
+
+        firebaseAuth = FirebaseAuth.getInstance()
+        databaseReference = FirebaseDatabase.getInstance("https://nft-ticketing-app-default-rtdb.europe-west1.firebasedatabase.app")
+        userUID = firebaseAuth.currentUser?.uid.toString()
+
+    }
 
 
     fun addEvent(event: Event) {
@@ -22,8 +32,117 @@ class EventViewModel(): ViewModel() {
         println("Minting the event")
 
 
-        //addOnCompleteListener gets notified when the task is completed.
-        databaseReference.getReference("Events").push().setValue(event).addOnCompleteListener{
+        //Push the new event in the Events tree
+        val newEventRef = databaseReference.getReference("Events").push()
+        val eventKey = newEventRef.key.toString()
+        newEventRef.setValue(event).addOnCompleteListener{
+
+            if(it.isSuccessful){
+
+                //Create the tickets
+                Log.d(ContentValues.TAG, "Event successfully created")
+
+
+            }else{
+                Log.w(ContentValues.TAG, "Failed to add new event in database", it.exception)
+
+            }
+        }
+
+        val ticketList = mutableListOf<Ticket>()
+
+        for(i in 0..event.numberOfTickets){
+
+            /*ticketList.add(Ticket(
+                transactions = listOf(hashMapOf("from" to "000000", "to" to "currentUser")),
+                eventID = eventKey
+            ))*/
+
+            val newTicketRef = databaseReference.getReference("Tickets").push()
+            val newTicketKey = newTicketRef.key
+            val newTransRef = newTicketRef.child("transactions").push()
+            val newTransKey = newTransRef.key
+            val ticket = Ticket(
+                uid = newTicketKey,
+                eventID = eventKey
+            )
+            newTicketRef.setValue(ticket).addOnCompleteListener{
+
+                if(it.isSuccessful){
+
+                    Log.d(ContentValues.TAG, "Ticket successfully created")
+
+                }else{
+                    Log.w(ContentValues.TAG, "Failed to add new ticket in database", it.exception)
+
+                }
+
+            }
+            newTransRef.setValue(hashMapOf("from" to "000000", "to" to userUID)).
+            addOnCompleteListener{
+
+                if(it.isSuccessful){
+
+                    Log.d(ContentValues.TAG, "Ticket successfully created")
+
+                }else{
+                    Log.w(ContentValues.TAG, "Failed to add new ticket in database", it.exception)
+
+                }
+
+            }
+
+        }
+
+        fun verifyTransaction(): Boolean{
+
+            TODO()
+
+        }
+
+        fun addTransaction(ticketRef: String, from: String, to: String){
+
+            val newTransRef =  databaseReference.getReference("Tickets").
+            child(ticketRef).child("transactions").push()
+
+            newTransRef.setValue(hashMapOf("from" to from, "to" to to)).
+            addOnCompleteListener{
+
+                if(it.isSuccessful){
+
+                    Log.d(ContentValues.TAG, "Ticket successfully created")
+
+                }else{
+                    Log.w(ContentValues.TAG, "Failed to add new ticket in database", it.exception)
+
+                }
+
+            }
+        }
+
+
+        fun transferToken() {
+            TODO("Not yet implemented")
+        }
+
+        fun buyTicket(ticketRef: String, from: String, to: String){
+                if (verifyTransaction()) {
+
+                    addTransaction(ticketRef = ticketRef, from = from, to = to)
+                    transferToken()
+                }
+
+
+
+        }
+
+
+
+        }
+
+
+        /*databaseReference.getReference("Tickets").setValue(ticketList).
+        addOnCompleteListener{
 
             if(it.isSuccessful){
 
@@ -33,10 +152,9 @@ class EventViewModel(): ViewModel() {
                 Log.w(ContentValues.TAG, "Failed to add new event in database", it.exception)
 
             }
-        }
-    }
 
-
-
-
+        }*/
 }
+
+
+
