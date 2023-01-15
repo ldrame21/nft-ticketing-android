@@ -2,7 +2,7 @@ package com.example.nftticketingapp.graphs
 
 import androidx.navigation.*
 import androidx.navigation.compose.composable
-import com.example.nftticketingapp.screens.home.market.EventContent
+import com.example.nftticketingapp.screens.home.market.BuyTicketContent
 
 const val EVENT_ARG_KEY = "name"
 const val EVENT_ARG_KEY2 = "artist"
@@ -19,7 +19,7 @@ fun NavGraphBuilder.eventNavGraph(navController: NavHostController) {
                 navArgument(EVENT_ARG_KEY2) {type = NavType.StringType}
             )
         ) {
-            EventContent(
+            BuyTicketContent(
                 name = it.arguments?.getString(EVENT_ARG_KEY).toString(),
                 artist = it.arguments?.getString(EVENT_ARG_KEY2).toString())
         }

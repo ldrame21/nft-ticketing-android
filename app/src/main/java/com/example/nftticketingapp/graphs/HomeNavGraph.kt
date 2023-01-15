@@ -9,7 +9,8 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.example.nftticketingapp.ViewModel.EventViewModel
+import com.example.nftticketingapp.ViewModel.BuyTicketViewModel
+import com.example.nftticketingapp.ViewModel.CreateEventViewModel
 import com.example.nftticketingapp.screens.home.MarketContent
 import com.example.nftticketingapp.screens.home.MyTicketsContent
 import com.example.nftticketingapp.screens.home.UserContent
@@ -23,7 +24,8 @@ fun HomeNavGraph(navController: NavHostController) {
         startDestination = BottomBarScreen.Market.route,
     ) {
         val viewModel = MainViewModel()
-        val eventViewModel = EventViewModel()
+        val createEventViewModel = CreateEventViewModel()
+        val buyTicketViewModel = BuyTicketViewModel()
         //viewModel.setUserContent()
         composable(route = BottomBarScreen.User.route) {
             UserContent(username = "Robin", viewModel = viewModel, navController = navController)

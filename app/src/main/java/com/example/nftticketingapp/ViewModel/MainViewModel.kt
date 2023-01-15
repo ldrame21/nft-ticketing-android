@@ -24,8 +24,6 @@ class MainViewModel: ViewModel() {
     private var uid = firebaseAuth.currentUser?.uid.toString()
     private var usersReference = databaseReference.getReference("Users")
 
-    val rootRef = FirebaseDatabase.getInstance().reference
-    val ticketsRef = rootRef.child("Tickets")
 
 
     private val _userData = MutableLiveData<User>()

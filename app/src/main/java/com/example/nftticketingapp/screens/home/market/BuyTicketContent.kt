@@ -26,6 +26,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.nftticketingapp.R
+import com.example.nftticketingapp.ViewModel.BuyTicketViewModel
+import com.example.nftticketingapp.ViewModel.CreateEventViewModel
 import com.example.nftticketingapp.ui.theme.Purple500
 
 
@@ -34,7 +36,7 @@ fun BuyTicket() {
 }
 
 @Composable
-fun EventContent(
+fun BuyTicketContent(
     name: String,
     artist: String
 ) {
@@ -142,7 +144,8 @@ fun EventContent(
                 }
 
                 OutlinedButton(
-                    onClick = { BuyTicket()},
+                    onClick = { BuyTicketViewModel().buyTicket(ticketRef = "-NLqBWTopjcyEzBZnsxm",
+                        from = "fromUserID")},
                     modifier = Modifier
                         .height(60.dp)
                         .width(290.dp)
@@ -167,5 +170,5 @@ fun EventContent(
 @Composable
 @Preview(showBackground = true)
 fun EventContentPreview() {
-    EventContent("Super Concert", "Kendrick Lamar")
+    BuyTicketContent("Super Concert", "Kendrick Lamar")
 }
