@@ -66,6 +66,7 @@ class EventViewModel(): ViewModel() {
                 uid = newTicketKey,
                 eventID = eventKey
             )
+            //Add ticket to database
             newTicketRef.setValue(ticket).addOnCompleteListener{
 
                 if(it.isSuccessful){
@@ -78,6 +79,7 @@ class EventViewModel(): ViewModel() {
                 }
 
             }
+            //Add transaction to database
             newTransRef.setValue(hashMapOf("from" to "000000", "to" to userUID)).
             addOnCompleteListener{
 
@@ -91,6 +93,27 @@ class EventViewModel(): ViewModel() {
                 }
 
             }
+
+            /*//Add ticket to user wallet
+            val userRef =  databaseReference.getReference("Users")
+            val tokenListRef =userRef.child(userUID)
+
+            val updates = HashMap<String, Any>()
+            val newTokenList = mutableListOf<String>()
+            newTokenList.add(newTicketKey.toString())
+            updates["tokenList"] = newTokenList
+
+            tokenListRef.updateChildren(updates) { databaseError, _ ->
+                if (databaseError != null) {
+                    Log.w(ContentValues.TAG, "Error updating token list", databaseError.toException())
+                } else {
+                    Log.d(ContentValues.TAG, "Successfully added new token to list")
+                }
+            }*/
+
+
+
+
 
         }
 
@@ -131,29 +154,8 @@ class EventViewModel(): ViewModel() {
                     addTransaction(ticketRef = ticketRef, from = from, to = to)
                     transferToken()
                 }
-
-
-
         }
-
-
-
-        }
-
-
-        /*databaseReference.getReference("Tickets").setValue(ticketList).
-        addOnCompleteListener{
-
-            if(it.isSuccessful){
-
-                Log.d(ContentValues.TAG, "Event successfully created")
-
-            }else{
-                Log.w(ContentValues.TAG, "Failed to add new event in database", it.exception)
-
-            }
-
-        }*/
+    }
 }
 
 
