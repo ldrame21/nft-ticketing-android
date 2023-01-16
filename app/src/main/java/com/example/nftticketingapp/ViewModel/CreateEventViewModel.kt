@@ -5,8 +5,10 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import com.example.nftticketingapp.DataClasses.Event
 import com.example.nftticketingapp.DataClasses.Ticket
+import com.example.nftticketingapp.DataClasses.Transaction
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ServerValue
 
 class CreateEventViewModel(): ViewModel() {
 
@@ -60,7 +62,7 @@ class CreateEventViewModel(): ViewModel() {
             val newTicketRef = databaseReference.getReference("Tickets").push()
             val newTicketKey = newTicketRef.key
             val newTransRef = newTicketRef.child("transactions").push()
-            val newTransKey = newTransRef.key
+            //val newTransKey = newTransRef.key
             val ticket = Ticket(
                 uid = newTicketKey,
                 eventID = eventKey
@@ -78,8 +80,11 @@ class CreateEventViewModel(): ViewModel() {
                 }
 
             }
+            val a = Transaction(from ="000000", to = userUID, time = System.currentTimeMillis())
             //Add transaction to database
-            newTransRef.setValue(hashMapOf("from" to "000000", "to" to userUID)).
+            newTransRef.setValue(
+                Transaction(from ="000000", to = userUID, time = System.currentTimeMillis())
+            ).
             addOnCompleteListener{
 
                 if(it.isSuccessful){
