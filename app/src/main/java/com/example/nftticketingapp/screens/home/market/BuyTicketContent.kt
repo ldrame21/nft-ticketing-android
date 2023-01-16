@@ -144,7 +144,7 @@ fun BuyTicketContent(
                 }
 
                 OutlinedButton(
-                    onClick = { BuyTicketViewModel().buyTicket(ticketRef = "-NLvT77HcuKQyeCvaIJn",
+                    onClick = { BuyTicketViewModel().buyTicket(ticketRef = "-NLvj0yULNatN3_lmzDQ",
                         ticketPrice = 12.0,
                         from = "AwV0h7U5POR2OihSDoWip3ayNuy2")},
                     modifier = Modifier

@@ -39,7 +39,7 @@ class BuyTicketViewModel: ViewModel() {
                 TODO("VERIFIER LA TRANSACTION")
             }*/
 
-            //Ici on va vérifier dans usersDatabase que userUID a assez d'argent
+            //Verify that buyer has enough money on his account
             //verifyUserBalance(ticketPrice = ticketPrice)
             val usersReference = databaseReference.getReference("Users")
             val balanceKey = "balance"
@@ -48,7 +48,7 @@ class BuyTicketViewModel: ViewModel() {
             usersReference.get().addOnSuccessListener {
                 val users = it.getValue(object : GenericTypeIndicator<HashMap<String, User>>() {
                 })
-                val yolololo = 5
+
                 val seller = users?.get(from)
                 val buyer = users?.get(userUID)
 
@@ -62,7 +62,7 @@ class BuyTicketViewModel: ViewModel() {
                     buyerBalance >= ticketPrice -> {
                         Log.i("Balance", "User has enough money ${buyerBalance}")
 
-                        //The tokenList are updated
+                        //The token is transfered between seller and buyer
                         val sellerTicketRefKey = sellerTokenList.filter { ticketRef == it.value }.keys.first()
                         sellerTokenList.remove(sellerTicketRefKey)
                         buyerTokenList[sellerTicketRefKey] = ticketRef
@@ -70,6 +70,7 @@ class BuyTicketViewModel: ViewModel() {
 
 
                         val childUpdates = hashMapOf<String, Any>(
+                            //Money is transfered between buyer and seller
                             "$userUID/$balanceKey" to buyerBalance - ticketPrice,
                             "$from/$balanceKey" to sellerBalance + ticketPrice,
                             "$userUID/$tokenListKey" to buyerTokenList,
@@ -77,14 +78,18 @@ class BuyTicketViewModel: ViewModel() {
                         )
 
                         usersReference.updateChildren(childUpdates)
-                        val c = 5
+
+                        addTransaction(ticketRef = ticketRef, from = from)
+
+                        //Ici on va remove le ticket dans marketDatabase
+                        //removeTokenFromMarket()
 
 
                     }
 
                     else -> {
 
-                        Log.i("Balance", "User doesn't have enough money ${it.value.toString()}")
+                        Log.i("Balance", "User doesn't have enough money ${buyerBalance}")
 
                     }
                 }
@@ -92,14 +97,7 @@ class BuyTicketViewModel: ViewModel() {
 
             }
 
-            //Ici on va ajouter les tokens dans tokenlist dans userDatabase
-            //transferToken(ticketRef = ticketRef, from = from)
-            //Ici on va modifier leurs balance dans userDatabase
-            //updateUsersBalance()
-            //Ici on va ajouter la transaction dans ticketDatabase
-            //addTransaction(ticketRef = ticketRef, from = from)
-            //Ici on va remove le ticket dans marketDatabase
-            //removeTokenFromMarket()
+
         }.addOnFailureListener{
             Log.e("firebase", "Error getting data", it)
         }
