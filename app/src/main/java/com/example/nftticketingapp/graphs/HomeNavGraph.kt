@@ -15,6 +15,7 @@ import com.example.nftticketingapp.screens.home.MarketContent
 import com.example.nftticketingapp.screens.home.MyTicketsContent
 import com.example.nftticketingapp.screens.home.UserContent
 import com.example.nftticketingapp.ViewModel.MainViewModel
+import com.example.nftticketingapp.ViewModel.MyTicketsViewModel
 
 @Composable
 fun HomeNavGraph(navController: NavHostController) {
@@ -26,6 +27,7 @@ fun HomeNavGraph(navController: NavHostController) {
         val viewModel = MainViewModel()
         val createEventViewModel = CreateEventViewModel()
         val buyTicketViewModel = BuyTicketViewModel()
+        //val myTicketsViewModel = MyTicketsViewModel()
         //viewModel.setUserContent()
         composable(route = BottomBarScreen.User.route) {
             UserContent(username = "Robin", viewModel = viewModel, navController = navController)

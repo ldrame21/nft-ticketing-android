@@ -10,6 +10,7 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -21,7 +22,11 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.nftticketingapp.DataClasses.Event
 import com.example.nftticketingapp.DataClasses.Event2
+import com.example.nftticketingapp.ViewModel.MyTicketsViewModel
 import com.example.nftticketingapp.graphs.TicketScreen
+
+
+
 
 private val event_list  = mutableListOf(
     Event2(
@@ -109,6 +114,8 @@ private val event_list  = mutableListOf(
 fun MyTicketsContent(
     navController: NavHostController
 ) {
+    val events = MyTicketsViewModel().eventsData.observeAsState()
+
     Column(modifier = Modifier.fillMaxSize()) {
 
         Box(
@@ -127,7 +134,7 @@ fun MyTicketsContent(
             modifier = Modifier
                 .fillMaxSize()
                 .background(Color.LightGray)
-                //.padding(10.dp)
+            //.padding(10.dp)
         )
         {
 
