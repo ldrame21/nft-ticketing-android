@@ -25,6 +25,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.nftticketingapp.DataClasses.TicketEvent
 import com.example.nftticketingapp.R
 import com.example.nftticketingapp.ViewModel.BuyTicketViewModel
 import com.example.nftticketingapp.ViewModel.CreateEventViewModel
@@ -37,8 +38,7 @@ fun BuyTicket() {
 
 @Composable
 fun BuyTicketContent(
-    name: String,
-    artist: String
+    ticketEvent: TicketEvent?
 ) {
 
     Box(modifier = Modifier.fillMaxSize()) {
@@ -89,19 +89,23 @@ fun BuyTicketContent(
                     )//add a border (optional)
                     Spacer(modifier = Modifier.height(10.dp))
 
-                    Text(
-                        text = name,
-                        fontSize = MaterialTheme.typography.h4.fontSize,
-                        fontWeight = FontWeight.Bold,
-                        color = Color.Black
-                    )
+                    if (ticketEvent != null) {
+                        Text(
+                            text = ticketEvent.event.name,
+                            fontSize = MaterialTheme.typography.h4.fontSize,
+                            fontWeight = FontWeight.Bold,
+                            color = Color.Black
+                        )
+                    }
 
-                    Text(
-                        text = artist,
-                        fontSize = MaterialTheme.typography.h4.fontSize,
-                        fontWeight = FontWeight.Normal,
-                        color = Color.Black
-                    )
+                    if (ticketEvent != null) {
+                        Text(
+                            text = ticketEvent.event.artist,
+                            fontSize = MaterialTheme.typography.h4.fontSize,
+                            fontWeight = FontWeight.Normal,
+                            color = Color.Black
+                        )
+                    }
                 }
                 Column(
                     modifier = Modifier
@@ -110,29 +114,35 @@ fun BuyTicketContent(
                     Arrangement.Top,
                     Alignment.Start)
                 {
-                    Text(
-                        fontSize = MaterialTheme.typography.h5.fontSize,
-                        fontWeight = FontWeight.Normal,
-                        color = Color.DarkGray,
-                        text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus. Suspendisse lectus tortor, dignissim sit amet, adipiscing nec, ultricies sed, dolor. Cras elementum ultrices diam. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus. Suspendisse lectus tortor, dignissim sit amet, adipiscing nec, ultricies sed, dolor."
-                    )
+                    if (ticketEvent != null) {
+                        Text(
+                            fontSize = MaterialTheme.typography.h5.fontSize,
+                            fontWeight = FontWeight.Normal,
+                            color = Color.DarkGray,
+                            text = ticketEvent.event.description
+                        )
+                    }
 
                     Row( modifier = Modifier.padding(top =40.dp)
                     ) {
 
-                        Text(
-                            text = "18.01.2023",
-                            fontSize = MaterialTheme.typography.h5.fontSize,
-                            fontWeight = FontWeight.Bold,
-                            color = Color.Black
-                        )
+                        if (ticketEvent != null) {
+                            Text(
+                                text = ticketEvent.event.date,
+                                fontSize = MaterialTheme.typography.h5.fontSize,
+                                fontWeight = FontWeight.Bold,
+                                color = Color.Black
+                            )
+                        }
                         Spacer(modifier = Modifier.width(50.dp))
-                        Text(
-                            text = "EPFL",
-                            fontSize = MaterialTheme.typography.h5.fontSize,
-                            fontWeight = FontWeight.Bold,
-                            color = Color.Black
-                        )
+                        if (ticketEvent != null) {
+                            Text(
+                                text = ticketEvent.event.address,
+                                fontSize = MaterialTheme.typography.h5.fontSize,
+                                fontWeight = FontWeight.Bold,
+                                color = Color.Black
+                            )
+                        }
                     }
                     Spacer(modifier = Modifier.height(40.dp))
                     Text(
@@ -144,9 +154,13 @@ fun BuyTicketContent(
                 }
 
                 OutlinedButton(
-                    onClick = { BuyTicketViewModel().buyTicket(ticketRef = "-NLvj0yULNatN3_lmzDQ",
-                        ticketPrice = 12.0,
-                        from = "AwV0h7U5POR2OihSDoWip3ayNuy2")},
+                    onClick = {
+                        if (ticketEvent != null) {
+                            BuyTicketViewModel().buyTicket(ticketRef = ticketEvent.ticketID,
+                                ticketPrice = 12.0,
+                                from = "AwV0h7U5POR2OihSDoWip3ayNuy2")
+                        }
+                    },
                     modifier = Modifier
                         .height(60.dp)
                         .width(290.dp)
@@ -167,9 +181,3 @@ fun BuyTicketContent(
 }
 
 
-
-@Composable
-@Preview(showBackground = true)
-fun EventContentPreview() {
-    BuyTicketContent("Super Concert", "Kendrick Lamar")
-}

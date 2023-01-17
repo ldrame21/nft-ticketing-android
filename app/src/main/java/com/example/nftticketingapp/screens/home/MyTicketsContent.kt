@@ -10,6 +10,7 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -21,7 +22,12 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.nftticketingapp.DataClasses.Event
 import com.example.nftticketingapp.DataClasses.Event2
+import com.example.nftticketingapp.DataClasses.TicketEvent
+import com.example.nftticketingapp.ViewModel.MyTicketsViewModel
 import com.example.nftticketingapp.graphs.TicketScreen
+
+
+
 
 private val event_list  = mutableListOf(
     Event2(
@@ -67,48 +73,17 @@ private val event_list  = mutableListOf(
         address = "Rue Le-Corbusier",
         date = "21/10/2023",
         description = "Best concert of your life"
-    ),
-    Event2(
-        name =  "Kendrick Lamar Concert",
-        numberOfTickets = 1,
-        price = 10.0,
-        artist = "Kendrick Lamar",
-        address = "Rue Le-Corbusier",
-        date = "21/10/2023",
-        description = "Best concert of your life"
-    ), Event2(
-        name =  "Kendrick Lamar Concert",
-        numberOfTickets = 1,
-        price = 10.0,
-        artist = "Kendrick Lamar",
-        address = "Rue Le-Corbusier",
-        date = "21/10/2023",
-        description = "Best concert of your life"
-    ),
-    Event2(
-        name =  "Kendrick Lamar Concert",
-        numberOfTickets = 1,
-        price = 10.0,
-        artist = "Kendrick Lamar",
-        address = "Rue Le-Corbusier",
-        date = "21/10/2023",
-        description = "Best concert of your life"
-    ),
-    Event2(
-        name =  "Kendrick Lamar Concert",
-        numberOfTickets = 1,
-        price = 10.0,
-        artist = "Kendrick Lamar",
-        address = "Rue Le-Corbusier",
-        date = "21/10/2023",
-        description = "Best concert of your life"
     )
+
 )
 
 @Composable
 fun MyTicketsContent(
     navController: NavHostController
 ) {
+    val myTicketsViewModel = MyTicketsViewModel()
+    val ticketEvent = myTicketsViewModel.ticketEventData.observeAsState()
+
     Column(modifier = Modifier.fillMaxSize()) {
 
         Box(
@@ -127,12 +102,14 @@ fun MyTicketsContent(
             modifier = Modifier
                 .fillMaxSize()
                 .background(Color.LightGray)
-                //.padding(10.dp)
+            //.padding(10.dp)
         )
         {
 
-            items(event_list) { event ->
-                Ticket(event, navController)
+            ticketEvent.value?.forEach { event ->
+                item {
+                    Ticket(event, navController)
+                }
             }
         }
     }
@@ -141,18 +118,21 @@ fun MyTicketsContent(
 
 @Composable
 fun Ticket(
-    event2: Event2,
+    event2: TicketEvent?,
     navController: NavHostController
 ) {
     Surface(
         modifier = Modifier
             .clickable {
-                navController.navigate(
-                    TicketScreen.Ticket.passNameAndArtist(
-                        name = event2.name,
-                        artist = event2.artist
+                if (event2 != null) {
+                    navController.currentBackStackEntry?.savedStateHandle?.set(
+                        key = "ticket",
+                        value = event2
                     )
-                )
+                    navController.navigate(
+                        TicketScreen.Ticket.route
+                    )
+                }
             }
             .fillMaxWidth()
             .height(120.dp)
@@ -167,15 +147,19 @@ fun Ticket(
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.Start
         ) {
-            Text(
-                text = event2.artist,
-                fontSize = MaterialTheme.typography.h4.fontSize,
-                fontWeight = FontWeight.Bold
-            )
-            Text(
-                text = event2.name,
-                fontSize = MaterialTheme.typography.h5.fontSize,
-            )
+            if (event2 != null) {
+                Text(
+                    text = event2.event.artist,
+                    fontSize = MaterialTheme.typography.h4.fontSize,
+                    fontWeight = FontWeight.Bold
+                )
+            }
+            if (event2 != null) {
+                Text(
+                    text = event2.event.name,
+                    fontSize = MaterialTheme.typography.h5.fontSize,
+                )
+            }
         }
     }
 }

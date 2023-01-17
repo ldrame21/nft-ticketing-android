@@ -11,6 +11,7 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -20,81 +21,13 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
-import com.example.nftticketingapp.DataClasses.Event
 import com.example.nftticketingapp.DataClasses.Event2
+import com.example.nftticketingapp.DataClasses.TicketEvent
+import com.example.nftticketingapp.ViewModel.MarketViewModel
+import com.example.nftticketingapp.ViewModel.MyTicketsViewModel
 import com.example.nftticketingapp.graphs.EventScreen
 
 private val event_list  = mutableListOf(
-    Event2(
-        name =  "Kendrick Lamar Concert",
-        numberOfTickets = 1,
-        price = 10.0,
-        artist = "Kendrick Lamar",
-        address = "Rue Le-Corbusier",
-        date = "21/10/2023",
-        description = "Best concert of your life"
-    ),
-    Event2(
-        name =  "Kendrick Lamar Concert",
-        numberOfTickets = 1,
-        price = 10.0,
-        artist = "Kendrick Lamar",
-        address = "Rue Le-Corbusier",
-        date = "21/10/2023",
-        description = "Best concert of your life"
-    ),
-    Event2(
-        name =  "Kendrick Lamar Concert",
-        numberOfTickets = 1,
-        price = 10.0,
-        artist = "Kendrick Lamar",
-        address = "Rue Le-Corbusier",
-        date = "21/10/2023",
-        description = "Best concert of your life"
-    ), Event2(
-        name =  "Kendrick Lamar Concert",
-        numberOfTickets = 1,
-        price = 10.0,
-        artist = "Kendrick Lamar",
-        address = "Rue Le-Corbusier",
-        date = "21/10/2023",
-        description = "Best concert of your life"
-    ),
-    Event2(
-        name =  "Kendrick Lamar Concert",
-        numberOfTickets = 1,
-        price = 10.0,
-        artist = "Kendrick Lamar",
-        address = "Rue Le-Corbusier",
-        date = "21/10/2023",
-        description = "Best concert of your life"
-    ),
-    Event2(
-        name =  "Kendrick Lamar Concert",
-        numberOfTickets = 1,
-        price = 10.0,
-        artist = "Kendrick Lamar",
-        address = "Rue Le-Corbusier",
-        date = "21/10/2023",
-        description = "Best concert of your life"
-    ), Event2(
-        name =  "Kendrick Lamar Concert",
-        numberOfTickets = 1,
-        price = 10.0,
-        artist = "Kendrick Lamar",
-        address = "Rue Le-Corbusier",
-        date = "21/10/2023",
-        description = "Best concert of your life"
-    ),
-    Event2(
-        name =  "Kendrick Lamar Concert",
-        numberOfTickets = 1,
-        price = 10.0,
-        artist = "Kendrick Lamar",
-        address = "Rue Le-Corbusier",
-        date = "21/10/2023",
-        description = "Best concert of your life"
-    ),
     Event2(
         name =  "Kendrick Lamar Concert",
         numberOfTickets = 1,
@@ -110,6 +43,10 @@ private val event_list  = mutableListOf(
 fun MarketContent(
     navController: NavHostController
 ) {
+
+    val marketViewModel = MarketViewModel()
+    val ticketEvent = marketViewModel.ticketEventData.observeAsState()
+
     Column {
 
         Box(
@@ -130,8 +67,14 @@ fun MarketContent(
         )
         {
 
-            items(event_list) { event2 ->
+            /*items(event_list) { event2 ->
                 Event(event2, navController)
+            }*/
+
+            ticketEvent.value?.forEach { event ->
+                item {
+                    Event(event, navController)
+                }
             }
         }
     }
@@ -140,19 +83,22 @@ fun MarketContent(
 
 @Composable
 fun Event(
-    event2: Event2,
+    event2: TicketEvent?,
     navController: NavHostController
 ) {
     Surface(
         modifier = Modifier
             .clickable {
-            navController.navigate(
-                EventScreen.Event.passNameAndArtist(
-                    name = event2.name,
-                    artist = event2.artist
-                )
-            )
-        }
+                if (event2 != null) {
+                        navController.currentBackStackEntry?.savedStateHandle?.set(
+                            key = "event",
+                            value = event2
+                        )
+                    navController.navigate(
+                        EventScreen.Event.route
+                    )
+                }
+            }
             .fillMaxWidth()
             .height(120.dp)
             .border(width = 0.1.dp, color = Color.Gray)
@@ -166,15 +112,19 @@ fun Event(
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.Start
         ) {
-            Text(
-                text = event2.artist,
-                fontSize = MaterialTheme.typography.h4.fontSize,
-                fontWeight = FontWeight.Bold
-            )
-            Text(
-                text = event2.name,
-                fontSize = MaterialTheme.typography.h5.fontSize,
-            )
+            if (event2 != null) {
+                Text(
+                    text = event2.event.artist,
+                    fontSize = MaterialTheme.typography.h4.fontSize,
+                    fontWeight = FontWeight.Bold
+                )
+            }
+            if (event2 != null) {
+                Text(
+                    text = event2.event.name,
+                    fontSize = MaterialTheme.typography.h5.fontSize,
+                )
+            }
         }
     }
 }

@@ -1,10 +1,13 @@
 package com.example.nftticketingapp.DataClasses
 
-import android.view.SurfaceControl.Transaction
 
 data class Ticket(var uid: String? = null,
-                  var eventID: String
+                  var eventID: String,
+                  var transactions: HashMap<String?, Transaction?> = HashMap()
 ){
+
+    constructor(): this(null, "", HashMap())
+
 
 
 }

@@ -4,12 +4,11 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.nftticketingapp.DataClasses.Event
+import com.example.nftticketingapp.DataClasses.Ticket
+import com.example.nftticketingapp.DataClasses.TicketEvent
 import com.example.nftticketingapp.DataClasses.User
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.*
 
 class MyTicketsViewModel: ViewModel() {
 
@@ -21,12 +20,13 @@ class MyTicketsViewModel: ViewModel() {
 
     private var uid = firebaseAuth.currentUser?.uid.toString()
     private var usersReference = databaseReference.getReference("Users")
+    private var ticketsReference = databaseReference.getReference("Tickets")
+    private var eventsReference = databaseReference.getReference("Events")
 
 
-
-    private val _eventData = MutableLiveData<Event>()
-    val userData: LiveData<Event>
-        get() = _eventData
+    private val _ticketEventData = MutableLiveData<List<TicketEvent>>()
+    val ticketEventData: LiveData<List<TicketEvent>>
+        get() = _ticketEventData
 
     init {
 
@@ -42,7 +42,50 @@ class MyTicketsViewModel: ViewModel() {
                     //Get the user data whenever it is changed
                     //val user = snapshot.getValue(User::class.java)
                     //_userData.value = user
-                    val yolo = 5
+
+                    var tokenList = snapshot.getValue(object :
+                        GenericTypeIndicator<HashMap<String?, String?>>() {
+                    })
+
+                    if (tokenList != null) {
+
+                        //Get the ticket database
+                        ticketsReference.get().addOnSuccessListener {
+                            val tickets = it.getValue(object : GenericTypeIndicator<HashMap<String, Ticket>>() {
+                            })
+
+                            //Get the eventID for each ticket in the tokenList and create an hashmap ticketID -> eventID
+                            var ticketToEventHash = HashMap<Any?, String>()
+                            for (token in tokenList){
+                                ticketToEventHash += token.value to tickets!!.get(token.value)!!.eventID
+                            }
+
+                            //Get the event database
+                            eventsReference.get().addOnSuccessListener {
+                                val events = it.getValue(object : GenericTypeIndicator<HashMap<String, Event>>() {
+                                })
+
+                                var ticketEventList = mutableListOf<TicketEvent>()
+                                for (eventID in ticketToEventHash){
+
+                                    ticketEventList.add(TicketEvent(event = events!!.get(eventID.value)!!,
+                                        ticketID = eventID.key.toString()))
+
+                                }
+                                _ticketEventData.value = ticketEventList
+
+
+                            }.addOnFailureListener{}
+
+
+                        }.addOnFailureListener{}
+
+
+
+                    }
+                    else {
+
+                    }
 
                 }
 

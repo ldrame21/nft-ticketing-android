@@ -1,5 +1,9 @@
 package com.example.nftticketingapp.DataClasses
 
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
+
+@Parcelize
 data class Event(
     var name: String,
     var numberOfTickets: Int,
@@ -9,8 +13,7 @@ data class Event(
     var date: String,
     var description: String,
     var uid: String? = null
-){
-    init {
-
-    }
+): Parcelable
+{
+    constructor(): this("", 0, 0.0, "", "", "", "")
 }

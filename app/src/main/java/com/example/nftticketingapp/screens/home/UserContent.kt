@@ -36,7 +36,7 @@ import androidx.compose.ui.window.DialogProperties
 import androidx.navigation.NavHostController
 import com.example.nftticketingapp.R
 import com.example.nftticketingapp.ui.theme.Purple500
-import com.example.nftticketingapp.ViewModel.MainViewModel
+import com.example.nftticketingapp.ViewModel.UserViewModel
 import com.example.nftticketingapp.graphs.Graph
 
 
@@ -45,7 +45,7 @@ import com.example.nftticketingapp.graphs.Graph
 @Composable
 fun UserContent(
     username: String,
-    viewModel: MainViewModel,
+    viewModel: UserViewModel,
     navController: NavHostController
 ) {
 
@@ -182,7 +182,7 @@ fun UserContent(
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun CustomDialog(
-    viewModel: MainViewModel,
+    viewModel: UserViewModel,
     onDismiss:()->Unit,
 ) {
     var new_balance: Double = 0.0
@@ -288,5 +288,5 @@ fun CustomDialog(
 @Composable
 @Preview(showBackground = true)
 fun UserContentPreview() {
-    CustomDialog(viewModel = MainViewModel(), onDismiss = {})
+    CustomDialog(viewModel = UserViewModel(), onDismiss = {})
 }
