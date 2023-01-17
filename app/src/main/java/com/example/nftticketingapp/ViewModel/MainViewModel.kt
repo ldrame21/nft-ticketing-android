@@ -82,7 +82,7 @@ class MainViewModel: ViewModel() {
             })*/
 
 
-            //Create user profile in Users database
+            //Observe current User in database
             usersReference.child(uid).addValueEventListener(object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
 

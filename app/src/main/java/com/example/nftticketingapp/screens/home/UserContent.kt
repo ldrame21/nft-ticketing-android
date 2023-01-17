@@ -61,7 +61,7 @@ fun UserContent(
 
     })*/
 
-    var user = viewModel.userData.observeAsState()
+    val user = viewModel.userData.observeAsState()
 
 
 
