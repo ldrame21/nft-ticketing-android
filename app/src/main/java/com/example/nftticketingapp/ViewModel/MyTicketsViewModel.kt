@@ -24,9 +24,9 @@ class MyTicketsViewModel: ViewModel() {
 
 
 
-    private val _eventsData = MutableLiveData<Event>()
-    val eventsData: LiveData<Event>
-        get() = _eventsData
+    private val _ticketToEventData = MutableLiveData<HashMap<Any?, Event>>()
+    val ticketToEventData: LiveData<HashMap<Any?, Event>>
+        get() = _ticketToEventData
 
     init {
 
@@ -54,8 +54,13 @@ class MyTicketsViewModel: ViewModel() {
                             val tickets = it.getValue(object : GenericTypeIndicator<HashMap<String, Ticket>>() {
                             })
 
-                            //Get the eventID for each ticket in the tokenList
+                            //Get the eventID for each ticket in the tokenList and create an hashmap ticketID -> eventID
+                            var ticketToEventHash = HashMap<Any?, String>()
                             for (token in tokenList){
+
+                                //hashMapOf(token to tickets!!.get(token.value).eventID)
+                                val yolo = 5
+                                ticketToEventHash += token.value to tickets!!.get(token.value)!!.eventID
 
                                 //Get the eventUID of the ticket
                                 /*ticketsReference.child("ticketRef").child('eventID')
@@ -64,6 +69,24 @@ class MyTicketsViewModel: ViewModel() {
                                     }*/
 
                             }
+
+
+                            //Get the event database
+                            eventsReference.get().addOnSuccessListener {
+                                val events = it.getValue(object : GenericTypeIndicator<HashMap<String, Event>>() {
+                                })
+
+                                var ticketIDToEventHash = HashMap<Any?, Event>()
+                                for (eventID in ticketToEventHash){
+
+                                    ticketIDToEventHash += eventID.key to events!!.get(eventID.value)!!
+                                    val yolo = 5
+
+                                }
+                                _ticketToEventData.value = ticketIDToEventHash
+
+
+                            }.addOnFailureListener{}
 
 
                         }.addOnFailureListener{}

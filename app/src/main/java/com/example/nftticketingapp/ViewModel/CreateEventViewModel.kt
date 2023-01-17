@@ -9,6 +9,7 @@ import com.example.nftticketingapp.DataClasses.Transaction
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ServerValue
+import java.util.*
 
 class CreateEventViewModel(): ViewModel() {
 
@@ -61,11 +62,14 @@ class CreateEventViewModel(): ViewModel() {
 
             val newTicketRef = databaseReference.getReference("Tickets").push()
             val newTicketKey = newTicketRef.key
-            val newTransRef = newTicketRef.child("transactions").push()
-            //val newTransKey = newTransRef.key
+
+
             val ticket = Ticket(
                 uid = newTicketKey,
-                eventID = eventKey
+                eventID = eventKey,
+                transactions = hashMapOf(
+                    UUID.randomUUID().toString() to Transaction(from ="000000", to = userUID, time = System.currentTimeMillis())
+                )
             )
             //Add ticket to database
             newTicketRef.setValue(ticket).addOnCompleteListener{
@@ -80,23 +84,7 @@ class CreateEventViewModel(): ViewModel() {
                 }
 
             }
-            val a = Transaction(from ="000000", to = userUID, time = System.currentTimeMillis())
-            //Add transaction to database
-            newTransRef.setValue(
-                Transaction(from ="000000", to = userUID, time = System.currentTimeMillis())
-            ).
-            addOnCompleteListener{
 
-                if(it.isSuccessful){
-
-                    Log.d(ContentValues.TAG, "Ticket successfully created")
-
-                }else{
-                    Log.w(ContentValues.TAG, "Failed to add new ticket in database", it.exception)
-
-                }
-
-            }
 
             //Add ticket to user wallet
             val userRef =  databaseReference.getReference("Users")

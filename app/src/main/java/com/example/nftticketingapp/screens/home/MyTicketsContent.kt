@@ -114,7 +114,7 @@ private val event_list  = mutableListOf(
 fun MyTicketsContent(
     navController: NavHostController
 ) {
-    val events = MyTicketsViewModel().eventsData.observeAsState()
+    val events = MyTicketsViewModel().ticketToEventData.observeAsState()
 
     Column(modifier = Modifier.fillMaxSize()) {
 
@@ -141,6 +141,7 @@ fun MyTicketsContent(
             items(event_list) { event ->
                 Ticket(event, navController)
             }
+
         }
     }
 }

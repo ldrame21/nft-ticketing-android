@@ -10,7 +10,5 @@ data class Event(
     var description: String,
     var uid: String? = null
 ){
-    init {
-
-    }
+    constructor(): this("", 0, 0.0, "", "", "", "")
 }
