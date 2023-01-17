@@ -44,11 +44,11 @@ fun LoginScreen(onLogInSucessful: () -> Unit,
 
     //Initialize blank username and password
     var username by remember {
-        mutableStateOf("")
+        mutableStateOf("pi@hotmail.com")
     }
 
     var password by remember {
-        mutableStateOf("")
+        mutableStateOf("123456")
     }
 
 
