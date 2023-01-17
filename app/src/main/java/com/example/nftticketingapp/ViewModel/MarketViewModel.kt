@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import com.example.nftticketingapp.DataClasses.Event
 import com.example.nftticketingapp.DataClasses.MarketItem
 import com.example.nftticketingapp.DataClasses.Ticket
+import com.example.nftticketingapp.DataClasses.TicketEvent
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 
@@ -22,9 +23,9 @@ class MarketViewModel: ViewModel() {
     private var ticketsReference = databaseReference.getReference("Tickets")
     private var eventsReference = databaseReference.getReference("Events")
 
-    private val _ticketToEventData = MutableLiveData<HashMap<Any?, Event>>()
-    val ticketToEventData: LiveData<HashMap<Any?, Event>>
-        get() = _ticketToEventData
+    private val _ticketEventData = MutableLiveData<List<TicketEvent>>()
+    val ticketEventData: LiveData<List<TicketEvent>>
+        get() = _ticketEventData
 
     init {
 
@@ -35,8 +36,37 @@ class MarketViewModel: ViewModel() {
                 val marketItems = snapshot.getValue(object : GenericTypeIndicator<HashMap<String, MarketItem>>() {
                 })
 
-               //For each marketItem, get the corresponding event and create a <HashMap<Any?, Event>>
-                //also, don't forget to set the price in Event
+                val yolo = 5
+
+                eventsReference.get().addOnSuccessListener {
+                    val events = it.getValue(object : GenericTypeIndicator<HashMap<String, Event>>() {
+                    })
+
+                    var ticketEventList = mutableListOf<TicketEvent>()
+                    if (marketItems != null) {
+                        for (item in marketItems){
+
+
+                            val ticketID = item.value.ticketID
+                            val eventID = item.value.eventID
+
+
+                            val eventPriceUpdate = events!!.get(eventID)!!
+                            eventPriceUpdate.price = item.value.price
+
+                            ticketEventList.add(TicketEvent(event = eventPriceUpdate,
+                                ticketID = ticketID))
+
+                        }
+                    }
+                    _ticketEventData.value = ticketEventList
+
+
+                }.addOnFailureListener{}
+
+                val yololo = 5
+
+
             }
 
             override fun onCancelled(error: DatabaseError) {

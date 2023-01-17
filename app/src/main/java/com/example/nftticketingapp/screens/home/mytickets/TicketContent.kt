@@ -30,6 +30,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
+import com.example.nftticketingapp.DataClasses.TicketEvent
 import com.example.nftticketingapp.R
 import com.example.nftticketingapp.ViewModel.SellTicketViewModel
 import com.example.nftticketingapp.ui.theme.Purple500
@@ -55,8 +56,7 @@ fun DisplayTicket() {
 
 @Composable
 fun TicketContent(
-    name: String,
-    artist: String
+    ticketEvent: TicketEvent?
 ) {
 
     Box(modifier = Modifier.fillMaxSize()) {
@@ -107,19 +107,23 @@ fun TicketContent(
                     )//add a border (optional)
                     Spacer(modifier = Modifier.height(10.dp))
 
-                    Text(
-                        text = name,
-                        fontSize = MaterialTheme.typography.h4.fontSize,
-                        fontWeight = FontWeight.Bold,
-                        color = Color.Black
-                    )
+                    if (ticketEvent != null) {
+                        Text(
+                            text = ticketEvent.event.name,
+                            fontSize = MaterialTheme.typography.h4.fontSize,
+                            fontWeight = FontWeight.Bold,
+                            color = Color.Black
+                        )
+                    }
 
-                    Text(
-                        text = artist,
-                        fontSize = MaterialTheme.typography.h4.fontSize,
-                        fontWeight = FontWeight.Normal,
-                        color = Color.Black
-                    )
+                    if (ticketEvent != null) {
+                        Text(
+                            text = ticketEvent.event.artist,
+                            fontSize = MaterialTheme.typography.h4.fontSize,
+                            fontWeight = FontWeight.Normal,
+                            color = Color.Black
+                        )
+                    }
                 }
                 Column(
                     modifier = Modifier
@@ -128,29 +132,35 @@ fun TicketContent(
                     Arrangement.Top,
                     Alignment.Start)
                 {
-                    Text(
-                        fontSize = MaterialTheme.typography.h5.fontSize,
-                        fontWeight = FontWeight.Normal,
-                        color = Color.DarkGray,
-                        text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus. Suspendisse lectus tortor."
-                    )
+                    if (ticketEvent != null) {
+                        Text(
+                            fontSize = MaterialTheme.typography.h5.fontSize,
+                            fontWeight = FontWeight.Normal,
+                            color = Color.DarkGray,
+                            text = ticketEvent.event.description
+                        )
+                    }
 
                     Row( modifier = Modifier.padding(top =30.dp)
                     ) {
 
-                        Text(
-                            text = "18.01.2023",
-                            fontSize = MaterialTheme.typography.h5.fontSize,
-                            fontWeight = FontWeight.Bold,
-                            color = Color.Black
-                        )
+                        if (ticketEvent != null) {
+                            Text(
+                                text =  ticketEvent.event.date,
+                                fontSize = MaterialTheme.typography.h5.fontSize,
+                                fontWeight = FontWeight.Bold,
+                                color = Color.Black
+                            )
+                        }
                         Spacer(modifier = Modifier.width(50.dp))
-                        Text(
-                            text = "EPFL",
-                            fontSize = MaterialTheme.typography.h5.fontSize,
-                            fontWeight = FontWeight.Bold,
-                            color = Color.Black
-                        )
+                        if (ticketEvent != null) {
+                            Text(
+                                text =  ticketEvent.event.address,
+                                fontSize = MaterialTheme.typography.h5.fontSize,
+                                fontWeight = FontWeight.Bold,
+                                color = Color.Black
+                            )
+                        }
                     }
                     Spacer(modifier = Modifier.height(30.dp))
                     Text(
@@ -211,7 +221,8 @@ fun TicketContent(
         CustomDialog(
             onDismiss = {
                 onDismissDialog()
-            }
+            },
+            ticketEvent = ticketEvent
         )
     }
 }
@@ -221,7 +232,9 @@ fun TicketContent(
 @Composable
 fun CustomDialog(
     onDismiss:()->Unit,
+    ticketEvent: TicketEvent?
 ) {
+    val sellTicketViewModel = SellTicketViewModel()
     var ticket_price: Double = 0.0
     Dialog(
         onDismissRequest = {
@@ -296,9 +309,14 @@ fun CustomDialog(
                     }
                     Button(
                         onClick = {
-                            SellTicketViewModel().sellTicket(
-                                ticketID = "00000",
-                                price = ticket_price)
+                            if (ticketEvent != null) {
+                                ticketEvent.event.uid?.let {
+                                    sellTicketViewModel.sellTicket(
+                                        ticketID = ticketEvent.ticketID,
+                                        eventID = it,
+                                        price = ticket_price)
+                                }
+                            }
                         },
                         colors = ButtonDefaults.buttonColors(
                             backgroundColor = Purple500,
@@ -321,16 +339,4 @@ fun CustomDialog(
             }
         }
     }
-}
-
-@Composable
-@Preview(showBackground = true)
-fun UserContentPreview() {
-    CustomDialog(onDismiss = {})
-}
-
-@Composable
-@Preview(showBackground = true)
-fun TicketContentPreview() {
-    TicketContent("fiesta", "Bob")
 }

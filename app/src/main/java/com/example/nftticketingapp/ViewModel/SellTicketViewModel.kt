@@ -20,7 +20,7 @@ class SellTicketViewModel: ViewModel() {
     private var marketReference = databaseReference.getReference("Market")
 
 
-    fun sellTicket(ticketID: String, price: Double){
+    fun sellTicket(ticketID: String, eventID: String, price: Double){
 
 
         //verifyTransaction()
@@ -29,7 +29,7 @@ class SellTicketViewModel: ViewModel() {
         val ticketRef = marketReference.push().key
 
         if (ticketRef != null) {
-            val newMarketItem = MarketItem(ticketID = ticketID, price = price)
+            val newMarketItem = MarketItem(ticketID = ticketID, eventID = eventID, price = price)
             marketReference.child(ticketRef).setValue(newMarketItem).addOnCompleteListener{
 
                 if(it.isSuccessful){

@@ -2,10 +2,8 @@ package com.example.nftticketingapp.graphs
 
 import androidx.navigation.*
 import androidx.navigation.compose.composable
+import com.example.nftticketingapp.DataClasses.TicketEvent
 import com.example.nftticketingapp.screens.home.mytickets.TicketContent
-
-const val TICKET_ARG_KEY = "name"
-const val TICKET_ARG_KEY2 = "artist"
 
 fun NavGraphBuilder.ticketNavGraph(navController: NavHostController) {
     navigation(
@@ -14,27 +12,17 @@ fun NavGraphBuilder.ticketNavGraph(navController: NavHostController) {
     ) {
 
         composable(
-            route = TicketScreen.Ticket.route,
-            arguments = listOf(
-                navArgument(TICKET_ARG_KEY) {type = NavType.StringType},
-                navArgument(TICKET_ARG_KEY2) {type = NavType.StringType}
-            )
+            route = TicketScreen.Ticket.route
         ) {
+            val result =
+                navController.previousBackStackEntry?.savedStateHandle?.get<TicketEvent>("ticket")
             TicketContent(
-                name = it.arguments?.getString(TICKET_ARG_KEY).toString(),
-                artist = it.arguments?.getString(TICKET_ARG_KEY2).toString())
+                ticketEvent = result
+            )
         }
     }
 }
 
 sealed class TicketScreen(val route: String) {
-    object Ticket : TicketScreen(route = "TICKET/{$TICKET_ARG_KEY}/{$TICKET_ARG_KEY2}") {
-        fun passNameAndArtist(
-            name: String?,
-            artist: String?
-        ): String {
-            return "TICKET/$name/$artist"
-        }
-    }
-    object SellTicket : TicketScreen(route = "SELL_TICKET")
+    object Ticket : TicketScreen(route = "TICKET")
 }

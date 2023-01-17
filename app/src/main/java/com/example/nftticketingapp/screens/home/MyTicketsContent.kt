@@ -125,11 +125,12 @@ fun Ticket(
         modifier = Modifier
             .clickable {
                 if (event2 != null) {
+                    navController.currentBackStackEntry?.savedStateHandle?.set(
+                        key = "ticket",
+                        value = event2
+                    )
                     navController.navigate(
-                        TicketScreen.Ticket.passNameAndArtist(
-                            name = event2.event.name,
-                            artist = event2.event.artist
-                        )
+                        TicketScreen.Ticket.route
                     )
                 }
             }
