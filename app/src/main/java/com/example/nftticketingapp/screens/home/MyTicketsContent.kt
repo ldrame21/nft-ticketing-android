@@ -22,6 +22,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.nftticketingapp.DataClasses.Event
 import com.example.nftticketingapp.DataClasses.Event2
+import com.example.nftticketingapp.DataClasses.TicketEvent
 import com.example.nftticketingapp.ViewModel.MyTicketsViewModel
 import com.example.nftticketingapp.graphs.TicketScreen
 
@@ -72,49 +73,16 @@ private val event_list  = mutableListOf(
         address = "Rue Le-Corbusier",
         date = "21/10/2023",
         description = "Best concert of your life"
-    ),
-    Event2(
-        name =  "Kendrick Lamar Concert",
-        numberOfTickets = 1,
-        price = 10.0,
-        artist = "Kendrick Lamar",
-        address = "Rue Le-Corbusier",
-        date = "21/10/2023",
-        description = "Best concert of your life"
-    ), Event2(
-        name =  "Kendrick Lamar Concert",
-        numberOfTickets = 1,
-        price = 10.0,
-        artist = "Kendrick Lamar",
-        address = "Rue Le-Corbusier",
-        date = "21/10/2023",
-        description = "Best concert of your life"
-    ),
-    Event2(
-        name =  "Kendrick Lamar Concert",
-        numberOfTickets = 1,
-        price = 10.0,
-        artist = "Kendrick Lamar",
-        address = "Rue Le-Corbusier",
-        date = "21/10/2023",
-        description = "Best concert of your life"
-    ),
-    Event2(
-        name =  "Kendrick Lamar Concert",
-        numberOfTickets = 1,
-        price = 10.0,
-        artist = "Kendrick Lamar",
-        address = "Rue Le-Corbusier",
-        date = "21/10/2023",
-        description = "Best concert of your life"
     )
+
 )
 
 @Composable
 fun MyTicketsContent(
     navController: NavHostController
 ) {
-    val events = MyTicketsViewModel().ticketToEventData.observeAsState()
+    val myTicketsViewModel = MyTicketsViewModel()
+    val ticketEvent = myTicketsViewModel.ticketEventData.observeAsState()
 
     Column(modifier = Modifier.fillMaxSize()) {
 
@@ -138,10 +106,11 @@ fun MyTicketsContent(
         )
         {
 
-            items(event_list) { event ->
-                Ticket(event, navController)
+            ticketEvent.value?.forEach { event ->
+                item {
+                    Ticket(event, navController)
+                }
             }
-
         }
     }
 }
@@ -149,18 +118,20 @@ fun MyTicketsContent(
 
 @Composable
 fun Ticket(
-    event2: Event2,
+    event2: TicketEvent?,
     navController: NavHostController
 ) {
     Surface(
         modifier = Modifier
             .clickable {
-                navController.navigate(
-                    TicketScreen.Ticket.passNameAndArtist(
-                        name = event2.name,
-                        artist = event2.artist
+                if (event2 != null) {
+                    navController.navigate(
+                        TicketScreen.Ticket.passNameAndArtist(
+                            name = event2.event.name,
+                            artist = event2.event.artist
+                        )
                     )
-                )
+                }
             }
             .fillMaxWidth()
             .height(120.dp)
@@ -175,15 +146,19 @@ fun Ticket(
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.Start
         ) {
-            Text(
-                text = event2.artist,
-                fontSize = MaterialTheme.typography.h4.fontSize,
-                fontWeight = FontWeight.Bold
-            )
-            Text(
-                text = event2.name,
-                fontSize = MaterialTheme.typography.h5.fontSize,
-            )
+            if (event2 != null) {
+                Text(
+                    text = event2.event.artist,
+                    fontSize = MaterialTheme.typography.h4.fontSize,
+                    fontWeight = FontWeight.Bold
+                )
+            }
+            if (event2 != null) {
+                Text(
+                    text = event2.event.name,
+                    fontSize = MaterialTheme.typography.h5.fontSize,
+                )
+            }
         }
     }
 }

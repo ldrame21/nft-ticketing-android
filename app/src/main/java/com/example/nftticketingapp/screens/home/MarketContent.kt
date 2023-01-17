@@ -20,81 +20,11 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
-import com.example.nftticketingapp.DataClasses.Event
 import com.example.nftticketingapp.DataClasses.Event2
+import com.example.nftticketingapp.DataClasses.TicketEvent
 import com.example.nftticketingapp.graphs.EventScreen
 
 private val event_list  = mutableListOf(
-    Event2(
-        name =  "Kendrick Lamar Concert",
-        numberOfTickets = 1,
-        price = 10.0,
-        artist = "Kendrick Lamar",
-        address = "Rue Le-Corbusier",
-        date = "21/10/2023",
-        description = "Best concert of your life"
-    ),
-    Event2(
-        name =  "Kendrick Lamar Concert",
-        numberOfTickets = 1,
-        price = 10.0,
-        artist = "Kendrick Lamar",
-        address = "Rue Le-Corbusier",
-        date = "21/10/2023",
-        description = "Best concert of your life"
-    ),
-    Event2(
-        name =  "Kendrick Lamar Concert",
-        numberOfTickets = 1,
-        price = 10.0,
-        artist = "Kendrick Lamar",
-        address = "Rue Le-Corbusier",
-        date = "21/10/2023",
-        description = "Best concert of your life"
-    ), Event2(
-        name =  "Kendrick Lamar Concert",
-        numberOfTickets = 1,
-        price = 10.0,
-        artist = "Kendrick Lamar",
-        address = "Rue Le-Corbusier",
-        date = "21/10/2023",
-        description = "Best concert of your life"
-    ),
-    Event2(
-        name =  "Kendrick Lamar Concert",
-        numberOfTickets = 1,
-        price = 10.0,
-        artist = "Kendrick Lamar",
-        address = "Rue Le-Corbusier",
-        date = "21/10/2023",
-        description = "Best concert of your life"
-    ),
-    Event2(
-        name =  "Kendrick Lamar Concert",
-        numberOfTickets = 1,
-        price = 10.0,
-        artist = "Kendrick Lamar",
-        address = "Rue Le-Corbusier",
-        date = "21/10/2023",
-        description = "Best concert of your life"
-    ), Event2(
-        name =  "Kendrick Lamar Concert",
-        numberOfTickets = 1,
-        price = 10.0,
-        artist = "Kendrick Lamar",
-        address = "Rue Le-Corbusier",
-        date = "21/10/2023",
-        description = "Best concert of your life"
-    ),
-    Event2(
-        name =  "Kendrick Lamar Concert",
-        numberOfTickets = 1,
-        price = 10.0,
-        artist = "Kendrick Lamar",
-        address = "Rue Le-Corbusier",
-        date = "21/10/2023",
-        description = "Best concert of your life"
-    ),
     Event2(
         name =  "Kendrick Lamar Concert",
         numberOfTickets = 1,
@@ -130,9 +60,9 @@ fun MarketContent(
         )
         {
 
-            items(event_list) { event2 ->
+            /*items(event_list) { event2 ->
                 Event(event2, navController)
-            }
+            }*/
         }
     }
 }
@@ -140,7 +70,7 @@ fun MarketContent(
 
 @Composable
 fun Event(
-    event2: Event2,
+    event2: TicketEvent,
     navController: NavHostController
 ) {
     Surface(
@@ -148,8 +78,8 @@ fun Event(
             .clickable {
             navController.navigate(
                 EventScreen.Event.passNameAndArtist(
-                    name = event2.name,
-                    artist = event2.artist
+                    name = event2.event.name,
+                    artist = event2.event.artist
                 )
             )
         }
@@ -167,12 +97,12 @@ fun Event(
             horizontalAlignment = Alignment.Start
         ) {
             Text(
-                text = event2.artist,
+                text = event2.event.artist,
                 fontSize = MaterialTheme.typography.h4.fontSize,
                 fontWeight = FontWeight.Bold
             )
             Text(
-                text = event2.name,
+                text = event2.event.name,
                 fontSize = MaterialTheme.typography.h5.fontSize,
             )
         }

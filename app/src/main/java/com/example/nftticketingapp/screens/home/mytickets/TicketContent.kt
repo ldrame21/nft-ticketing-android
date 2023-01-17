@@ -31,8 +31,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import com.example.nftticketingapp.R
-import com.example.nftticketingapp.ViewModel.MainViewModel
-import com.example.nftticketingapp.screens.home.CustomDialog
+import com.example.nftticketingapp.ViewModel.SellTicketViewModel
 import com.example.nftticketingapp.ui.theme.Purple500
 
 var isDialogShown by mutableStateOf(false)
@@ -297,7 +296,9 @@ fun CustomDialog(
                     }
                     Button(
                         onClick = {
-                            SellTicket(ticket_price)
+                            SellTicketViewModel().sellTicket(
+                                ticketID = "00000",
+                                price = ticket_price)
                         },
                         colors = ButtonDefaults.buttonColors(
                             backgroundColor = Purple500,

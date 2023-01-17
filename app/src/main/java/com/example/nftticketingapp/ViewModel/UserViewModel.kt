@@ -7,12 +7,11 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.nftticketingapp.DataClasses.User
-import com.example.nftticketingapp.Firebase.FirebaseAuthObject
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import com.google.firebase.database.DatabaseError
 
-class MainViewModel: ViewModel() {
+class UserViewModel: ViewModel() {
 
 
     //lateinit var user: User

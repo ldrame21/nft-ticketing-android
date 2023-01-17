@@ -30,8 +30,8 @@ fun NavGraphBuilder.ticketNavGraph(navController: NavHostController) {
 sealed class TicketScreen(val route: String) {
     object Ticket : TicketScreen(route = "TICKET/{$TICKET_ARG_KEY}/{$TICKET_ARG_KEY2}") {
         fun passNameAndArtist(
-            name: String,
-            artist: String
+            name: String?,
+            artist: String?
         ): String {
             return "TICKET/$name/$artist"
         }
