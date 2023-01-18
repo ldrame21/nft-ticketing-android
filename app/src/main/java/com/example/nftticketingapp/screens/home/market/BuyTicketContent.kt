@@ -40,6 +40,7 @@ fun BuyTicket() {
 fun BuyTicketContent(
     ticketEvent: TicketEvent?
 ) {
+    val buyTicketViewModel = BuyTicketViewModel()
 
     Box(modifier = Modifier.fillMaxSize()) {
         Image(
@@ -156,9 +157,9 @@ fun BuyTicketContent(
                 OutlinedButton(
                     onClick = {
                         if (ticketEvent != null) {
-                            BuyTicketViewModel().buyTicket(ticketRef = ticketEvent.ticketID,
+                            buyTicketViewModel.buyTicket(ticketRef = ticketEvent.ticketID,
                                 ticketPrice = 12.0,
-                                from = "AwV0h7U5POR2OihSDoWip3ayNuy2")
+                                from = "RB9uno1Z3mYF2Afjo9sug0X3FYi1")
                         }
                     },
                     modifier = Modifier

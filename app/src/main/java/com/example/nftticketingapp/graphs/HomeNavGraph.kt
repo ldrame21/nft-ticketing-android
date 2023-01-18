@@ -24,8 +24,8 @@ fun HomeNavGraph(navController: NavHostController) {
         startDestination = BottomBarScreen.Market.route,
     ) {
         val viewModel = UserViewModel()
-        val createEventViewModel = CreateEventViewModel()
-        val buyTicketViewModel = BuyTicketViewModel()
+        //val createEventViewModel = CreateEventViewModel()
+        //val buyTicketViewModel = BuyTicketViewModel()
         //val myTicketsViewModel = MyTicketsViewModel()
         //viewModel.setUserContent()
         composable(route = BottomBarScreen.User.route) {

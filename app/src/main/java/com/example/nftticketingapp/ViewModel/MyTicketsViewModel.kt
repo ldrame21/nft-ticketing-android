@@ -68,7 +68,10 @@ class MyTicketsViewModel: ViewModel() {
                                 var ticketEventList = mutableListOf<TicketEvent>()
                                 for (eventID in ticketToEventHash){
 
-                                    ticketEventList.add(TicketEvent(event = events!!.get(eventID.value)!!,
+                                    val event_i = events!!.get(eventID.value)!!
+                                    event_i.uid = eventID.value
+
+                                    ticketEventList.add(TicketEvent(event = event_i,
                                         ticketID = eventID.key.toString()))
 
                                 }

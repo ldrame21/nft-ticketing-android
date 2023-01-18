@@ -53,6 +53,7 @@ class MarketViewModel: ViewModel() {
 
                             val eventPriceUpdate = events!!.get(eventID)!!
                             eventPriceUpdate.price = item.value.price
+                            eventPriceUpdate.uid = eventID
 
                             ticketEventList.add(TicketEvent(event = eventPriceUpdate,
                                 ticketID = ticketID))
