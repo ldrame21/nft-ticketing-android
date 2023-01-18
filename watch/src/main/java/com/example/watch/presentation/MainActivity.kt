@@ -24,6 +24,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.wear.compose.material.MaterialTheme
 import androidx.wear.compose.material.Text
 import com.example.watch.R
@@ -33,6 +35,7 @@ import com.google.android.gms.wearable.DataEventBuffer
 import com.google.android.gms.wearable.DataMapItem
 
 class MainActivity : ComponentActivity(), DataClient.OnDataChangedListener {
+
 
     private var bitmap: Bitmap? = null
     override fun onCreate(savedInstanceState: Bundle?) {
