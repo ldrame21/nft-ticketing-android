@@ -6,7 +6,6 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
@@ -21,24 +20,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
-import com.example.nftticketingapp.DataClasses.Event2
 import com.example.nftticketingapp.DataClasses.TicketEvent
-import com.example.nftticketingapp.DataClasses.TicketEvent2
 import com.example.nftticketingapp.ViewModel.MarketViewModel
-import com.example.nftticketingapp.ViewModel.MyTicketsViewModel
 import com.example.nftticketingapp.graphs.EventScreen
 
-private val event_list  = mutableListOf(
-    Event2(
-        name =  "Kendrick Lamar Concert",
-        numberOfTickets = 1,
-        price = 10.0,
-        artist = "Kendrick Lamar",
-        address = "Rue Le-Corbusier",
-        date = "21/10/2023",
-        description = "Best concert of your life"
-    )
-)
 
 @Composable
 fun MarketContent(
@@ -47,7 +32,6 @@ fun MarketContent(
 
     val marketViewModel = MarketViewModel()
     val ticketEvent = marketViewModel.ticketEventData.observeAsState()
-    val ticketEvent2 = marketViewModel.ticketEventData2.observeAsState()
 
     Column {
 
@@ -69,11 +53,7 @@ fun MarketContent(
         )
         {
 
-            /*items(event_list) { event2 ->
-                Event(event2, navController)
-            }*/
-
-            ticketEvent2.value?.forEach { event ->
+            ticketEvent.value?.forEach { event ->
                 item {
                     Event(event, navController)
                 }
@@ -85,17 +65,17 @@ fun MarketContent(
 
 @Composable
 fun Event(
-    event2: TicketEvent2?,
+    event: TicketEvent?,
     navController: NavHostController
 ) {
     Surface(
         modifier = Modifier
             .clickable {
-                if (event2 != null) {
-                        navController.currentBackStackEntry?.savedStateHandle?.set(
-                            key = "event",
-                            value = event2
-                        )
+                if (event != null) {
+                    navController.currentBackStackEntry?.savedStateHandle?.set(
+                        key = "event",
+                        value = event
+                    )
                     navController.navigate(
                         EventScreen.Event.route
                     )
@@ -114,8 +94,8 @@ fun Event(
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.Start
         ) {
-            if (event2 != null) {
-                event2.event?.let {
+            if (event != null) {
+                event.event?.let {
                     Text(
                         text = it.artist,
                         fontSize = MaterialTheme.typography.h4.fontSize,
@@ -123,20 +103,38 @@ fun Event(
                     )
                 }
             }
-            if (event2 != null) {
-                event2.event?.let {
-                    Text(
-                        text = it.name,
-                        fontSize = MaterialTheme.typography.h5.fontSize,
-                    )
+            Row() {
+                Row(
+                    horizontalArrangement = Arrangement.Start){
+                    if (event != null) {
+                        event.event?.let {
+                            Text(
+                                text = it.name,
+                                fontSize = MaterialTheme.typography.h5.fontSize,
+                            )
+                        }
+                    }
+                }
+                Row(modifier= Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.End){
+                    if (event != null) {
+                        event.event?.let {
+                            Text(
+                                text = "${it.price} chf",
+                                fontSize = MaterialTheme.typography.h5.fontSize,
+                                fontWeight = FontWeight.Light
+                            )
+                        }
+                    }
                 }
             }
+
         }
     }
 }
 
 @Composable
 @Preview(showBackground = true)
-fun EventPreview() {
+fun Event() {
     MarketContent(navController = rememberNavController())
 }

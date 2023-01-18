@@ -1,7 +1,9 @@
 package com.example.nftticketingapp.ViewModel
 
 import android.content.ContentValues
+import android.content.Context
 import android.util.Log
+import android.widget.Toast
 import androidx.lifecycle.ViewModel
 import com.example.nftticketingapp.DataClasses.Transaction
 import com.example.nftticketingapp.DataClasses.User
@@ -22,7 +24,11 @@ class BuyTicketViewModel: ViewModel() {
 
     }
 
-    fun buyTicket(ticketRef: String, marketID: String, from: String, ticketPrice: Double){
+    fun buyTicket(ticketRef: String,
+                  marketID: String,
+                  from: String,
+                  ticketPrice: Double,
+                  context: Context){
 
         val transRef = databaseReference.getReference("Tickets")
             .child(ticketRef).child("transactions")
@@ -67,8 +73,6 @@ class BuyTicketViewModel: ViewModel() {
                         sellerTokenList.remove(sellerTicketRefKey)
                         buyerTokenList[sellerTicketRefKey] = ticketRef
 
-
-
                         val childUpdates = hashMapOf<String, Any>(
                             //Money is transfered between buyer and seller
                             "$userUID/$balanceKey" to buyerBalance - ticketPrice,
@@ -79,20 +83,18 @@ class BuyTicketViewModel: ViewModel() {
 
                         usersReference.updateChildren(childUpdates)
 
-                        addTransaction(ticketRef = ticketRef, from = from)
+                        addTransaction(ticketRef = ticketRef, from = from, context = context)
 
                         //Ici on va remove le ticket de la marketDatabase
                         //removeTokenFromMarket()
                         val marketReference = databaseReference.getReference("Market")
                         marketReference.child(marketID).removeValue()
-
-
                     }
 
                     else -> {
-
-                        Log.i("Balance", "User doesn't have enough money ${buyerBalance}")
-
+                        val msg = "User doesn't have enough money ${buyerBalance}"
+                        Log.i("Balance", msg)
+                        context.showToast(msg)
                     }
                 }
 
@@ -105,15 +107,7 @@ class BuyTicketViewModel: ViewModel() {
         }
     }
 
-    private fun removeTokenFromMarket() {
-        TODO("Not yet implemented")
-    }
-
-    private fun updateUsersBalance() {
-        TODO("Update buyer and seller balances")
-    }
-
-    private fun addTransaction(ticketRef: String, from: String){
+    private fun addTransaction(ticketRef: String, from: String, context: Context){
 
         val newTransRef =  databaseReference.getReference("Tickets").
         child(ticketRef).child("transactions").push()
@@ -127,25 +121,20 @@ class BuyTicketViewModel: ViewModel() {
         addOnCompleteListener{
 
             if(it.isSuccessful){
-
-                Log.d(ContentValues.TAG, "Ticket successfully created")
+                val msg = "Ticket successfully created"
+                context.showToast("Ticket successfully bought !")
+                Log.d(ContentValues.TAG, msg)
 
             }else{
-                Log.w(ContentValues.TAG, "Failed to add new ticket in database", it.exception)
+                val msg = "Failed to add new ticket in database"
+                Log.w(ContentValues.TAG, msg, it.exception)
 
             }
 
         }
     }
 
-
-    private fun transferToken(ticketRef: String, from: String) {
-        TODO("Not yet implemented")
-    }
-
-    private fun verifyUserBalance(ticketPrice: Double): Boolean {
-
-        TODO()
-
+    private fun Context.showToast(msg: String){
+        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
     }
 }

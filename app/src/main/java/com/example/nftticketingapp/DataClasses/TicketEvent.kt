@@ -5,6 +5,6 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class TicketEvent(
-    var event: Event,
-    var ticketID: String
+    var event: Event?,
+    var ticket: Ticket?
 ): Parcelable

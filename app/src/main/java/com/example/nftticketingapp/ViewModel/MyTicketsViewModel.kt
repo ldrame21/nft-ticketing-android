@@ -22,17 +22,15 @@ class MyTicketsViewModel: ViewModel() {
 
 
 
-    private val _ticketEventData2 = MutableLiveData<List<TicketEvent2>>()
-    val ticketEventData2: LiveData<List<TicketEvent2>>
+    private val _ticketEventData2 = MutableLiveData<List<TicketEvent>>()
+    val ticketEventData2: LiveData<List<TicketEvent>>
         get() = _ticketEventData2
 
     init {
 
         if(uid.isNotEmpty())
         {
-
             val tokenListKey = "tokenList"
-
             //Observe user tokenList of the current user in the database
             usersReference.child(uid).child(tokenListKey).addValueEventListener(object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
@@ -44,9 +42,7 @@ class MyTicketsViewModel: ViewModel() {
                     var tokenList = snapshot.getValue(object :
                         GenericTypeIndicator<HashMap<String?, String?>>() {
                     })
-
                     if (tokenList != null) {
-
                         //Get the ticket database
                         ticketsReference.get().addOnSuccessListener {
                             val tickets = it.getValue(object : GenericTypeIndicator<HashMap<String, Ticket>>() {
@@ -63,14 +59,14 @@ class MyTicketsViewModel: ViewModel() {
                                 val events = it.getValue(object : GenericTypeIndicator<HashMap<String, Event>>() {
                                 })
 
-                                var ticketEventList2 = mutableListOf<TicketEvent2>()
+                                var ticketEventList2 = mutableListOf<TicketEvent>()
                                 for (eventID in ticketToEventHash){
 
                                     val event_i = events?.get(eventID.value)
                                     event_i?.uid = eventID.value
                                     val ticket_i = tickets?.get(eventID.key.toString())
 
-                                    ticketEventList2.add(TicketEvent2(event = event_i,
+                                    ticketEventList2.add(TicketEvent(event = event_i,
                                         ticket = ticket_i))
 
                                 }

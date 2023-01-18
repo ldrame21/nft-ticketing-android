@@ -146,7 +146,7 @@ fun UserContent(
                     .clip(RoundedCornerShape(50)),
                     colors = ButtonDefaults.textButtonColors(backgroundColor = Purple500)
                 ) {
-                    Text(text = "Reload",
+                    Text(text = "Refund",
                         fontSize = MaterialTheme.typography.h5.fontSize,
                         fontWeight = FontWeight.Normal,
                         color = Color.White

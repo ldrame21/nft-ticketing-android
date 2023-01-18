@@ -1,7 +1,9 @@
 package com.example.nftticketingapp.ViewModel
 
 import android.content.ContentValues
+import android.content.Context
 import android.util.Log
+import android.widget.Toast
 import androidx.lifecycle.ViewModel
 import com.example.nftticketingapp.DataClasses.MarketItem
 import com.google.firebase.auth.FirebaseAuth
@@ -15,15 +17,10 @@ class SellTicketViewModel: ViewModel() {
     )
 
     private var userUID = firebaseAuth.currentUser?.uid.toString()
-    private var ticketsReference = databaseReference.getReference("Tickets")
-    private var eventsReference = databaseReference.getReference("Events")
     private var marketReference = databaseReference.getReference("Market")
 
 
-    fun sellTicket(ticketID: String, eventID: String, price: Double){
-
-
-        //verifyTransaction()
+    fun sellTicket(ticketID: String, eventID: String, price: Double, context: Context){
 
         //Write the ticket and its price to the market
         val ticketRef = marketReference.push().key
@@ -36,8 +33,9 @@ class SellTicketViewModel: ViewModel() {
             marketReference.child(ticketRef).setValue(newMarketItem).addOnCompleteListener{
 
                 if(it.isSuccessful){
-
-                    Log.d(ContentValues.TAG, "Ticket successfully added to the market")
+                    val msg = "Ticket successfully added to the market"
+                    Log.d(ContentValues.TAG, msg)
+                    context.showToast(msg)
 
                 }else{
                     Log.w(ContentValues.TAG, "Failed to add new ticket to the market", it.exception)
@@ -46,14 +44,10 @@ class SellTicketViewModel: ViewModel() {
 
             }
         }
-
-
-
-
-
     }
 
-    private fun verifyTransaction() {
-        TODO("Not yet implemented")
+    private fun Context.showToast(msg: String){
+        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
     }
 }
+

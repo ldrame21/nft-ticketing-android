@@ -3,7 +3,6 @@ package com.example.nftticketingapp.screens.home.mytickets
 
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import android.provider.MediaStore
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -30,14 +29,12 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
-import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import com.example.nftticketingapp.DataClasses.TicketEvent
-import com.example.nftticketingapp.DataClasses.TicketEvent2
 import com.example.nftticketingapp.R
 import com.example.nftticketingapp.ViewModel.DisplayWatchViewModel
 import com.example.nftticketingapp.ViewModel.SellTicketViewModel
@@ -54,12 +51,6 @@ fun onSellTicketClick(){
 }
 fun onDismissDialog(){
     isDialogShown = false
-}
-
-fun SellTicket(
-    ticket_price: Double
-) {
-    // TODO do something
 }
 
 @Composable
@@ -82,7 +73,7 @@ fun DisplayTicket() {
 
 @Composable
 fun TicketContent(
-    ticketEvent: TicketEvent2?,
+    ticketEvent: TicketEvent?,
     navController: NavHostController
 ) {
     var displayWatchViewModel = DisplayWatchViewModel()
@@ -211,6 +202,7 @@ fun TicketContent(
                         fontWeight = FontWeight.Bold,
                         color = Color.Black
                     )
+                    Spacer(modifier = Modifier.height(20.dp))
 
                     val sortedTransactions = ticketEvent?.ticket?.transactions?.toList()?.
                     sortedBy { (_, transaction) -> transaction?.time }?.toMap()
@@ -219,11 +211,34 @@ fun TicketContent(
 
                     sortedTransactions?.forEach {
                         Text(
-                            text = "From : ${it.value?.from} to : ${it.value?.to}",
-                            fontSize = MaterialTheme.typography.h5.fontSize,
-                            fontWeight = FontWeight.Normal,
-                            color = Color.Black
+                            text = "From : ",
+                            fontSize = MaterialTheme.typography.h6.fontSize,
+                            fontWeight = FontWeight.Bold,
+                            color = Color.Black,
+                            lineHeight = 10.sp
                         )
+                        Text(
+                            text = "${it.value?.from}",
+                            fontSize = MaterialTheme.typography.h6.fontSize,
+                            fontWeight = FontWeight.Normal,
+                            color = Color.Black,
+                            lineHeight = 10.sp
+                        )
+                        Text(
+                            text = "To : ",
+                            fontSize = MaterialTheme.typography.h6.fontSize,
+                            fontWeight = FontWeight.Bold,
+                            color = Color.Black,
+                            lineHeight = 10.sp
+                        )
+                        Text(
+                            text = "${it.value?.to}",
+                            fontSize = MaterialTheme.typography.h6.fontSize,
+                            fontWeight = FontWeight.Normal,
+                            color = Color.Black,
+                            lineHeight = 10.sp
+                        )
+                        Spacer(modifier = Modifier.height(10.dp))
 
                     }
                 }
@@ -286,9 +301,10 @@ fun TicketContent(
 @Composable
 fun CustomDialog(
     onDismiss:()->Unit,
-    ticketEvent: TicketEvent2?,
+    ticketEvent: TicketEvent?,
     navController: NavHostController
 ) {
+    val context = LocalContext.current
     val sellTicketViewModel = SellTicketViewModel()
     var ticket_price: Double = 0.0
     Dialog(
@@ -370,7 +386,8 @@ fun CustomDialog(
                                         sellTicketViewModel.sellTicket(
                                             ticketID = it1,
                                             eventID = it,
-                                            price = ticket_price)
+                                            price = ticket_price,
+                                        context = context)
                                     }
                                 }
                                 navController.navigate(

@@ -11,7 +11,7 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ServerValue
 import java.util.*
 
-class CreateEventViewModel(): ViewModel() {
+class CreateEventViewModel : ViewModel() {
 
 
     private lateinit var firebaseAuth: FirebaseAuth

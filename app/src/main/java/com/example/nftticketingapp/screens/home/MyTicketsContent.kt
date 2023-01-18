@@ -5,7 +5,6 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
@@ -20,63 +19,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
-import com.example.nftticketingapp.DataClasses.Event
-import com.example.nftticketingapp.DataClasses.Event2
 import com.example.nftticketingapp.DataClasses.TicketEvent
-import com.example.nftticketingapp.DataClasses.TicketEvent2
 import com.example.nftticketingapp.ViewModel.MyTicketsViewModel
 import com.example.nftticketingapp.graphs.TicketScreen
 
-
-
-
-private val event_list  = mutableListOf(
-    Event2(
-        name =  "Kendrick Lamar Concert",
-        numberOfTickets = 1,
-        price = 10.0,
-        artist = "Kendrick Lamar",
-        address = "Rue Le-Corbusier",
-        date = "21/10/2023",
-        description = "Best concert of your life"
-    ),
-    Event2(
-        name =  "Kendrick Lamar Concert",
-        numberOfTickets = 1,
-        price = 10.0,
-        artist = "Kendrick Lamar",
-        address = "Rue Le-Corbusier",
-        date = "21/10/2023",
-        description = "Best concert of your life"
-    ),
-    Event2(
-        name =  "Kendrick Lamar Concert",
-        numberOfTickets = 1,
-        price = 10.0,
-        artist = "Kendrick Lamar",
-        address = "Rue Le-Corbusier",
-        date = "21/10/2023",
-        description = "Best concert of your life"
-    ), Event2(
-        name =  "Kendrick Lamar Concert",
-        numberOfTickets = 1,
-        price = 10.0,
-        artist = "Kendrick Lamar",
-        address = "Rue Le-Corbusier",
-        date = "21/10/2023",
-        description = "Best concert of your life"
-    ),
-    Event2(
-        name =  "Kendrick Lamar Concert",
-        numberOfTickets = 1,
-        price = 10.0,
-        artist = "Kendrick Lamar",
-        address = "Rue Le-Corbusier",
-        date = "21/10/2023",
-        description = "Best concert of your life"
-    )
-
-)
 
 @Composable
 fun MyTicketsContent(
@@ -119,7 +65,7 @@ fun MyTicketsContent(
 
 @Composable
 fun Ticket(
-    event2: TicketEvent2?,
+    event2: TicketEvent?,
     navController: NavHostController
 ) {
     Surface(
