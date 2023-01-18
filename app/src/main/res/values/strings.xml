@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">NFT Ticketing App</string>
+    <string name="type_changed">type_changed</string>
+    <string name="type_deleted">type_deleted</string>
+    <string name="unknown_type">unknown_type</string>
+    <string name="watch_msg">watch_msg</string>
+    <string name="capability_changed">capability_changed</string>
 </resources>

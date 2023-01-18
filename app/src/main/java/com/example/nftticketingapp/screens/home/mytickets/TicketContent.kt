@@ -1,6 +1,9 @@
 package com.example.nftticketingapp.screens.home.mytickets
 // Display a Ticket
 
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.provider.MediaStore
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -18,9 +21,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.blur
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.graphics.*
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.imageResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
@@ -33,8 +37,12 @@ import androidx.compose.ui.window.DialogProperties
 import com.example.nftticketingapp.DataClasses.TicketEvent
 import com.example.nftticketingapp.DataClasses.TicketEvent2
 import com.example.nftticketingapp.R
+import com.example.nftticketingapp.ViewModel.DisplayWatchViewModel
 import com.example.nftticketingapp.ViewModel.SellTicketViewModel
 import com.example.nftticketingapp.ui.theme.Purple500
+import com.google.android.gms.tasks.Task
+import com.google.android.gms.wearable.*
+import java.io.ByteArrayOutputStream
 
 var isDialogShown by mutableStateOf(false)
     private set
@@ -51,16 +59,35 @@ fun SellTicket(
     // TODO do something
 }
 
+@Composable
 fun DisplayTicket() {
-    // TODO do something
+    val dataClient: DataClient = Wearable.getDataClient(LocalContext.current)
+    val bitmap = BitmapFactory.decodeResource(
+        LocalContext.current.resources,
+        R.drawable.user
+    ).asImageBitmap()
+    val asset: Asset = BitmapFactory.decodeResource(
+        LocalContext.current.resources, R.drawable.user
+    ).let { bitmap ->
+        createAssetFromBitmap(bitmap)
+    }
+    val request: PutDataRequest = PutDataRequest.create("/image").apply {
+        putAsset("profileImage", asset)
+    }
+    val putTask: Task<DataItem> = Wearable.getDataClient(LocalContext.current).putDataItem(request)
 }
 
 @Composable
 fun TicketContent(
     ticketEvent: TicketEvent2?
 ) {
+    var displayWatchViewModel = DisplayWatchViewModel()
+    var context = LocalContext.current
+    DisplayTicket()
+
 
     Box(modifier = Modifier.fillMaxSize()) {
+        var bitmap = ImageBitmap.imageResource(id = R.drawable.user).asAndroidBitmap()
         Image(
             painter = painterResource(id = R.drawable.login_background),
             contentDescription = "Login",
@@ -192,7 +219,10 @@ fun TicketContent(
                 Spacer(modifier = Modifier.height(30.dp))
 
                 OutlinedButton(
-                    onClick = { DisplayTicket()},
+                    onClick = {
+                        val dataClient: DataClient = Wearable.getDataClient(context)
+                        displayWatchViewModel.sendDataToWear(context, dataClient, bitmap)
+                    },
                     modifier = Modifier
                         .height(60.dp)
                         .width(290.dp)
@@ -353,3 +383,9 @@ fun CustomDialog(
         }
     }
 }
+
+private fun createAssetFromBitmap(bitmap: Bitmap): Asset =
+    ByteArrayOutputStream().let { byteStream ->
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, byteStream)
+        Asset.createFromBytes(byteStream.toByteArray())
+    }
