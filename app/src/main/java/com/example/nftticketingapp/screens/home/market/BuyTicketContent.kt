@@ -26,6 +26,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.nftticketingapp.DataClasses.TicketEvent
+import com.example.nftticketingapp.DataClasses.TicketEvent2
 import com.example.nftticketingapp.R
 import com.example.nftticketingapp.ViewModel.BuyTicketViewModel
 import com.example.nftticketingapp.ViewModel.CreateEventViewModel
@@ -38,8 +39,9 @@ fun BuyTicket() {
 
 @Composable
 fun BuyTicketContent(
-    ticketEvent: TicketEvent?
+    ticketEvent: TicketEvent2?
 ) {
+    val buyTicketViewModel = BuyTicketViewModel()
 
     Box(modifier = Modifier.fillMaxSize()) {
         Image(
@@ -90,21 +92,25 @@ fun BuyTicketContent(
                     Spacer(modifier = Modifier.height(10.dp))
 
                     if (ticketEvent != null) {
-                        Text(
-                            text = ticketEvent.event.name,
-                            fontSize = MaterialTheme.typography.h4.fontSize,
-                            fontWeight = FontWeight.Bold,
-                            color = Color.Black
-                        )
+                        ticketEvent.event?.let {
+                            Text(
+                                text = it.name,
+                                fontSize = MaterialTheme.typography.h4.fontSize,
+                                fontWeight = FontWeight.Bold,
+                                color = Color.Black
+                            )
+                        }
                     }
 
                     if (ticketEvent != null) {
-                        Text(
-                            text = ticketEvent.event.artist,
-                            fontSize = MaterialTheme.typography.h4.fontSize,
-                            fontWeight = FontWeight.Normal,
-                            color = Color.Black
-                        )
+                        ticketEvent.event?.let {
+                            Text(
+                                text = it.artist,
+                                fontSize = MaterialTheme.typography.h4.fontSize,
+                                fontWeight = FontWeight.Normal,
+                                color = Color.Black
+                            )
+                        }
                     }
                 }
                 Column(
@@ -115,38 +121,44 @@ fun BuyTicketContent(
                     Alignment.Start)
                 {
                     if (ticketEvent != null) {
-                        Text(
-                            fontSize = MaterialTheme.typography.h5.fontSize,
-                            fontWeight = FontWeight.Normal,
-                            color = Color.DarkGray,
-                            text = ticketEvent.event.description
-                        )
+                        ticketEvent.event?.let {
+                            Text(
+                                fontSize = MaterialTheme.typography.h5.fontSize,
+                                fontWeight = FontWeight.Normal,
+                                color = Color.DarkGray,
+                                text = it.description
+                            )
+                        }
                     }
 
                     Row( modifier = Modifier.padding(top =40.dp)
                     ) {
 
                         if (ticketEvent != null) {
-                            Text(
-                                text = ticketEvent.event.date,
-                                fontSize = MaterialTheme.typography.h5.fontSize,
-                                fontWeight = FontWeight.Bold,
-                                color = Color.Black
-                            )
+                            ticketEvent.event?.let {
+                                Text(
+                                    text = it.date,
+                                    fontSize = MaterialTheme.typography.h5.fontSize,
+                                    fontWeight = FontWeight.Bold,
+                                    color = Color.Black
+                                )
+                            }
                         }
                         Spacer(modifier = Modifier.width(50.dp))
                         if (ticketEvent != null) {
-                            Text(
-                                text = ticketEvent.event.address,
-                                fontSize = MaterialTheme.typography.h5.fontSize,
-                                fontWeight = FontWeight.Bold,
-                                color = Color.Black
-                            )
+                            ticketEvent.event?.let {
+                                Text(
+                                    text = it.address,
+                                    fontSize = MaterialTheme.typography.h5.fontSize,
+                                    fontWeight = FontWeight.Bold,
+                                    color = Color.Black
+                                )
+                            }
                         }
                     }
                     Spacer(modifier = Modifier.height(40.dp))
                     Text(
-                        text = "Price : 60 CHF",
+                        text = "Price : ${ticketEvent?.ticket?.price} CHF",
                         fontSize = MaterialTheme.typography.h5.fontSize,
                         fontWeight = FontWeight.Bold,
                         color = Color.Black
@@ -156,9 +168,19 @@ fun BuyTicketContent(
                 OutlinedButton(
                     onClick = {
                         if (ticketEvent != null) {
-                            BuyTicketViewModel().buyTicket(ticketRef = ticketEvent.ticketID,
-                                ticketPrice = 12.0,
-                                from = "AwV0h7U5POR2OihSDoWip3ayNuy2")
+                            ticketEvent.event?.sellerID?.let {
+                                ticketEvent.event?.marketID?.let { it1 ->
+                                    ticketEvent.event?.let { it2 ->
+                                        ticketEvent.ticket?.uid?.let { it3 ->
+                                            buyTicketViewModel.buyTicket(ticketRef = it3,
+                                                marketID = it1,
+                                                ticketPrice = it2.price,
+                                                from = it
+                                            )
+                                        }
+                                    }
+                                }
+                            }
                         }
                     },
                     modifier = Modifier

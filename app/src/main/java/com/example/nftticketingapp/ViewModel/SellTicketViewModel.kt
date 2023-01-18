@@ -29,7 +29,10 @@ class SellTicketViewModel: ViewModel() {
         val ticketRef = marketReference.push().key
 
         if (ticketRef != null) {
-            val newMarketItem = MarketItem(ticketID = ticketID, eventID = eventID, price = price)
+            val newMarketItem = MarketItem(ticketID = ticketID,
+                eventID = eventID,
+                sellerID = userUID,
+                price = price)
             marketReference.child(ticketRef).setValue(newMarketItem).addOnCompleteListener{
 
                 if(it.isSuccessful){

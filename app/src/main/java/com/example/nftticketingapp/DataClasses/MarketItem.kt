@@ -1,7 +1,12 @@
 package com.example.nftticketingapp.DataClasses
 
-data class MarketItem(var ticketID: String, var eventID: String, var price: Double){
+data class MarketItem(var ticketID: String,
+                      var eventID: String,
+                      var sellerID: String,
+                      var price: Double){
 
-    constructor(): this("", "", 0.0)
+
+    //Required by firebase to get the data
+    constructor(): this("", "", "", 0.0)
 
 }

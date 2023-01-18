@@ -23,6 +23,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.nftticketingapp.DataClasses.Event
 import com.example.nftticketingapp.DataClasses.Event2
 import com.example.nftticketingapp.DataClasses.TicketEvent
+import com.example.nftticketingapp.DataClasses.TicketEvent2
 import com.example.nftticketingapp.ViewModel.MyTicketsViewModel
 import com.example.nftticketingapp.graphs.TicketScreen
 
@@ -82,7 +83,7 @@ fun MyTicketsContent(
     navController: NavHostController
 ) {
     val myTicketsViewModel = MyTicketsViewModel()
-    val ticketEvent = myTicketsViewModel.ticketEventData.observeAsState()
+    val ticketEvent2 = myTicketsViewModel.ticketEventData2.observeAsState()
 
     Column(modifier = Modifier.fillMaxSize()) {
 
@@ -106,7 +107,7 @@ fun MyTicketsContent(
         )
         {
 
-            ticketEvent.value?.forEach { event ->
+            ticketEvent2.value?.forEach { event ->
                 item {
                     Ticket(event, navController)
                 }
@@ -118,7 +119,7 @@ fun MyTicketsContent(
 
 @Composable
 fun Ticket(
-    event2: TicketEvent?,
+    event2: TicketEvent2?,
     navController: NavHostController
 ) {
     Surface(
@@ -148,17 +149,21 @@ fun Ticket(
             horizontalAlignment = Alignment.Start
         ) {
             if (event2 != null) {
-                Text(
-                    text = event2.event.artist,
-                    fontSize = MaterialTheme.typography.h4.fontSize,
-                    fontWeight = FontWeight.Bold
-                )
+                event2.event?.let {
+                    Text(
+                        text = it.artist,
+                        fontSize = MaterialTheme.typography.h4.fontSize,
+                        fontWeight = FontWeight.Bold
+                    )
+                }
             }
             if (event2 != null) {
-                Text(
-                    text = event2.event.name,
-                    fontSize = MaterialTheme.typography.h5.fontSize,
-                )
+                event2.event?.let {
+                    Text(
+                        text = it.name,
+                        fontSize = MaterialTheme.typography.h5.fontSize,
+                    )
+                }
             }
         }
     }

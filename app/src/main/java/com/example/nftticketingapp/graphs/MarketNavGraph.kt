@@ -3,6 +3,7 @@ package com.example.nftticketingapp.graphs
 import androidx.navigation.*
 import androidx.navigation.compose.composable
 import com.example.nftticketingapp.DataClasses.TicketEvent
+import com.example.nftticketingapp.DataClasses.TicketEvent2
 import com.example.nftticketingapp.screens.home.market.BuyTicketContent
 
 fun NavGraphBuilder.eventNavGraph(navController: NavHostController) {
@@ -15,7 +16,7 @@ fun NavGraphBuilder.eventNavGraph(navController: NavHostController) {
 
         ) {
             val result =
-                navController.previousBackStackEntry?.savedStateHandle?.get<TicketEvent>("event")
+                navController.previousBackStackEntry?.savedStateHandle?.get<TicketEvent2>("event")
             BuyTicketContent(
                 ticketEvent = result
             )

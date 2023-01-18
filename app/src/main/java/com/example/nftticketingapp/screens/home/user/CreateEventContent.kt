@@ -2,11 +2,15 @@ package com.example.nftticketingapp.screens.home.user
 // Page pour minter un nouvel évenement
 
 import android.annotation.SuppressLint
+import android.app.Activity
+import android.app.Instrumentation
 import android.content.Context
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CutCornerShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -32,6 +36,7 @@ import com.example.nftticketingapp.DataClasses.Event
 import com.example.nftticketingapp.R
 import com.example.nftticketingapp.ViewModel.CreateEventViewModel
 import com.example.nftticketingapp.graphs.Graph
+import androidx.activity.result.launch
 
 import com.example.nftticketingapp.ui.theme.Purple500
 
@@ -79,16 +84,33 @@ fun CreateEventContent(navController: NavHostController) {
                     fontSize = MaterialTheme.typography.h4.fontSize,
                     fontWeight = FontWeight.Bold
                 )
-                Image(
-                    painter = painterResource(R.drawable.event),
-                    contentDescription = "avatar",
-                    contentScale = ContentScale.Crop,            // crop the image if it's not a square
-                    modifier = Modifier
-                        .padding(bottom = 20.dp)
-                        .size(170.dp)
-                        .clip(RectangleShape)                       // clip to the circle shape
-                        .border(2.dp, Color.Gray, RectangleShape)   // add a border (optional)
-                )
+                Box(modifier = Modifier.clickable {
+                    /*val imagePicker = registerForActivityResult(
+                        ActivityResultContracts.GetContent()) { result: Instrumentation.ActivityResult ->
+                        if (result.resultCode == Activity.RESULT_OK) {
+                            val imageUri = result.data?.data
+                            if (imageUri != null) {
+                                //updateImage(imageUri)
+                            }
+                        }
+                    }*/
+                    //imagePicker.launch("image/*")
+
+                }
+                    .size(170.dp)){
+
+                    Image(
+                        painter = painterResource(R.drawable.event),
+                        contentDescription = "avatar",
+                        contentScale = ContentScale.Crop,            // crop the image if it's not a square
+                        modifier = Modifier
+                            .size(170.dp)
+                            .clip(RectangleShape)                       // clip to the circle shape
+                            .border(2.dp, Color.Gray, RectangleShape)   // add a border (optional)
+                    )
+
+                }
+
 
                 val nametextState = remember { mutableStateOf(TextFieldValue())}
                 val artisttextState = remember { mutableStateOf(TextFieldValue())}

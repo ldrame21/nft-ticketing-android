@@ -12,7 +12,9 @@ data class Event(
     var address: String,
     var date: String,
     var description: String,
-    var uid: String? = null
+    var uid: String? = null,
+    var sellerID: String? = null,
+    var marketID: String? = null
 ): Parcelable
 {
     constructor(): this("", 0, 0.0, "", "", "", "")
