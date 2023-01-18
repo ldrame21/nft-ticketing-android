@@ -34,11 +34,14 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
+import androidx.navigation.NavController
+import androidx.navigation.NavHostController
 import com.example.nftticketingapp.DataClasses.TicketEvent
 import com.example.nftticketingapp.DataClasses.TicketEvent2
 import com.example.nftticketingapp.R
 import com.example.nftticketingapp.ViewModel.DisplayWatchViewModel
 import com.example.nftticketingapp.ViewModel.SellTicketViewModel
+import com.example.nftticketingapp.graphs.Graph
 import com.example.nftticketingapp.ui.theme.Purple500
 import com.google.android.gms.tasks.Task
 import com.google.android.gms.wearable.*
@@ -79,7 +82,8 @@ fun DisplayTicket() {
 
 @Composable
 fun TicketContent(
-    ticketEvent: TicketEvent2?
+    ticketEvent: TicketEvent2?,
+    navController: NavHostController
 ) {
     var displayWatchViewModel = DisplayWatchViewModel()
     var context = LocalContext.current
@@ -271,7 +275,8 @@ fun TicketContent(
             onDismiss = {
                 onDismissDialog()
             },
-            ticketEvent = ticketEvent
+            ticketEvent = ticketEvent,
+            navController = navController
         )
     }
 }
@@ -281,7 +286,8 @@ fun TicketContent(
 @Composable
 fun CustomDialog(
     onDismiss:()->Unit,
-    ticketEvent: TicketEvent2?
+    ticketEvent: TicketEvent2?,
+    navController: NavHostController
 ) {
     val sellTicketViewModel = SellTicketViewModel()
     var ticket_price: Double = 0.0
@@ -367,6 +373,9 @@ fun CustomDialog(
                                             price = ticket_price)
                                     }
                                 }
+                                navController.navigate(
+                                    Graph.HOME
+                                )
                             }
                         },
                         colors = ButtonDefaults.buttonColors(

@@ -25,11 +25,13 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
 import com.example.nftticketingapp.DataClasses.TicketEvent
 import com.example.nftticketingapp.DataClasses.TicketEvent2
 import com.example.nftticketingapp.R
 import com.example.nftticketingapp.ViewModel.BuyTicketViewModel
 import com.example.nftticketingapp.ViewModel.CreateEventViewModel
+import com.example.nftticketingapp.graphs.Graph
 import com.example.nftticketingapp.ui.theme.Purple500
 
 
@@ -39,7 +41,8 @@ fun BuyTicket() {
 
 @Composable
 fun BuyTicketContent(
-    ticketEvent: TicketEvent2?
+    ticketEvent: TicketEvent2?,
+    navController: NavHostController
 ) {
     val buyTicketViewModel = BuyTicketViewModel()
 
@@ -181,6 +184,9 @@ fun BuyTicketContent(
                                     }
                                 }
                             }
+                            navController.navigate(
+                                Graph.HOME
+                            )
                         }
                     },
                     modifier = Modifier

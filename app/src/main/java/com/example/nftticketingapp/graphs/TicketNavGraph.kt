@@ -18,7 +18,8 @@ fun NavGraphBuilder.ticketNavGraph(navController: NavHostController) {
             val result =
                 navController.previousBackStackEntry?.savedStateHandle?.get<TicketEvent2>("ticket")
             TicketContent(
-                ticketEvent = result
+                ticketEvent = result,
+                navController = navController
             )
         }
     }
