@@ -180,13 +180,21 @@ fun TicketContent(
                         fontWeight = FontWeight.Bold,
                         color = Color.Black
                     )
-                    Text(
-                        text =  "    - from : a   to : b\n" +
-                                "    - from : b   to : c",
-                        fontSize = MaterialTheme.typography.h5.fontSize,
-                        fontWeight = FontWeight.Normal,
-                        color = Color.Black
-                    )
+
+                    val sortedTransactions = ticketEvent?.ticket?.transactions?.toList()?.
+                    sortedBy { (_, transaction) -> transaction?.time }?.toMap()
+
+
+
+                    sortedTransactions?.forEach {
+                        Text(
+                            text = "From : ${it.value?.from} to : ${it.value?.to}",
+                            fontSize = MaterialTheme.typography.h5.fontSize,
+                            fontWeight = FontWeight.Normal,
+                            color = Color.Black
+                        )
+
+                    }
                 }
 
                 Spacer(modifier = Modifier.height(30.dp))

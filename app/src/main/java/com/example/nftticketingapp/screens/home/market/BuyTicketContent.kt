@@ -158,7 +158,7 @@ fun BuyTicketContent(
                     }
                     Spacer(modifier = Modifier.height(40.dp))
                     Text(
-                        text = "Price : 60 CHF",
+                        text = "Price : ${ticketEvent?.ticket?.price} CHF",
                         fontSize = MaterialTheme.typography.h5.fontSize,
                         fontWeight = FontWeight.Bold,
                         color = Color.Black
