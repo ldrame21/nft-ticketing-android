@@ -22,7 +22,7 @@ class BuyTicketViewModel: ViewModel() {
 
     }
 
-    fun buyTicket(ticketRef: String, from: String, ticketPrice: Double){
+    fun buyTicket(ticketRef: String, marketID: String, from: String, ticketPrice: Double){
 
         val transRef = databaseReference.getReference("Tickets")
             .child(ticketRef).child("transactions")
@@ -81,8 +81,10 @@ class BuyTicketViewModel: ViewModel() {
 
                         addTransaction(ticketRef = ticketRef, from = from)
 
-                        //Ici on va remove le ticket dans marketDatabase
+                        //Ici on va remove le ticket de la marketDatabase
                         //removeTokenFromMarket()
+                        val marketReference = databaseReference.getReference("Market")
+                        marketReference.child(marketID).removeValue()
 
 
                     }

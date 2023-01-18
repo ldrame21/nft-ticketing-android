@@ -3,6 +3,7 @@ package com.example.nftticketingapp.graphs
 import androidx.navigation.*
 import androidx.navigation.compose.composable
 import com.example.nftticketingapp.DataClasses.TicketEvent
+import com.example.nftticketingapp.DataClasses.TicketEvent2
 import com.example.nftticketingapp.screens.home.mytickets.TicketContent
 
 fun NavGraphBuilder.ticketNavGraph(navController: NavHostController) {
@@ -15,7 +16,7 @@ fun NavGraphBuilder.ticketNavGraph(navController: NavHostController) {
             route = TicketScreen.Ticket.route
         ) {
             val result =
-                navController.previousBackStackEntry?.savedStateHandle?.get<TicketEvent>("ticket")
+                navController.previousBackStackEntry?.savedStateHandle?.get<TicketEvent2>("ticket")
             TicketContent(
                 ticketEvent = result
             )
